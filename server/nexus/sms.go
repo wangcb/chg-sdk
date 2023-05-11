@@ -22,7 +22,7 @@ func (t *Sms) Verify(phone string, code string) error {
 		URL:    "/api/sms/code/verify",
 		Body: map[string]interface{}{
 			"phone": phone,
-			"data":  code,
+			"code":  code,
 		},
 	}
 	res, err := request.Do(req, chg.Configure.NexusUrl)
