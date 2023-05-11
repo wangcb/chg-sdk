@@ -16,4 +16,5 @@ type RealName struct {
 	Status      int        `json:"status"`
 	Reason      string     `json:"reason"`
 	Nation      string     `json:"nation"`
+	CreatedAt   *time.Time `json:"created_at"`
 }

@@ -15,7 +15,7 @@ func NewQiNiu(config *chg.Config) *QiNiu {
 	return &QiNiu{}
 }
 
-func (t *QiNiu) MakeQiniuPrivateUrl(keys map[string]string, bucket string) (map[string]string, error) {
+func (t *QiNiu) MakePrivateUrl(keys map[string]string, bucket string) (map[string]string, error) {
 	if len(keys) == 0 {
 		return keys, nil
 	}
