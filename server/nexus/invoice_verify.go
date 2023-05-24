@@ -2,6 +2,7 @@ package nexus
 
 import (
 	"encoding/json"
+	"errors"
 	"github.com/wangcb/chg-sdk/chg"
 	"github.com/wangcb/chg-sdk/http"
 	"github.com/wangcb/chg-sdk/request"
@@ -28,6 +29,9 @@ func (t *InvoiceVerify) Medical(url string) (*response.InvoiceMedical, error) {
 	if err != nil {
 		return nil, err
 	}
+	if res.Code != 200 {
+		return nil, errors.New(res.Message)
+	}
 	var data response.InvoiceMedical
 	bytes, _ := json.Marshal(res.Data)
 	err = json.Unmarshal(bytes, &data)
@@ -45,6 +49,9 @@ func (t *InvoiceVerify) VAT(url string) (*response.InvoiceVAT, error) {
 	res, err := request.Do(req, chg.Configure.NexusUrl)
 	if err != nil {
 		return nil, err
+	}
+	if res.Code != 200 {
+		return nil, errors.New(res.Message)
 	}
 	var data response.InvoiceVAT
 	bytes, _ := json.Marshal(res.Data)

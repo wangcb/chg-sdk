@@ -12,7 +12,8 @@ type InvoiceVAT struct {
 	InvoiceType    string        `json:"invoice_type"`     // 发票类型
 	InvoiceItems   []InvoiceItem `json:"invoice_items"`    // 发票明细列表
 	TotalTaxAmount float64       `json:"total_tax_amount"` // 税额总额
-	TotalAmount    float64       `json:"total_amount"`     // 价税合计总额
+	InvoiceAmount  float64       `json:"invoice_amount"`   // 发票金额
+	TotalAmount    float64       `json:"total_amount"`     // 总金额(发票金额+税额)
 	OriginResult   string        `json:"origin_result"`
 }
 
