@@ -4,11 +4,9 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/wangcb/chg-sdk/request"
 	"io"
-	"sort"
 	"strconv"
 	"time"
 )
@@ -63,16 +61,10 @@ func CheckSign(c *gin.Context, secretKey string, expireTime int) error {
 		for k, v := range params {
 			paramMap[k] = v[0]
 		}
-		keys := make([]string, 0, len(paramMap))
-		for k := range paramMap {
-			keys = append(keys, k)
+		jsonBytes, err = json.Marshal(paramMap)
+		if err != nil {
+			return err
 		}
-		sort.Strings(keys)
-		var buf bytes.Buffer
-		for _, k := range keys {
-			buf.WriteString(fmt.Sprintf("%s=%s&", k, paramMap[k]))
-		}
-		jsonBytes = bytes.TrimRight(buf.Bytes(), "&")
 	}
 
 	calcSig := request.SignGenerate(secretKey, c.Request.Method, c.Request.URL.Path, jsonBytes, timestamp)
