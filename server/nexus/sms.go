@@ -36,14 +36,19 @@ func (t *Sms) Verify(phone string, code string) error {
 }
 
 // Send 发送短信
-func (t *Sms) Send(phone string, template string, params map[string]interface{}) error {
+func (t *Sms) Send(phone string, template string, params map[string]interface{}, args ...string) error {
+	signName := ""
+	if len(args) > 0 {
+		signName = args[0]
+	}
 	req := http.Request{
 		Method: "POST",
 		URL:    "/api/sms/send",
 		Body: map[string]interface{}{
-			"phone":    phone,
-			"template": template,
-			"data":     params,
+			"phone":     phone,
+			"template":  template,
+			"data":      params,
+			"sign_name": signName,
 		},
 	}
 	res, err := request.Do(req, chg.Configure.NexusUrl)
