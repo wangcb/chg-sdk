@@ -36,5 +36,6 @@ func (t *Icd) GetIcd(params map[string]string) (icdList []response.Icd, err erro
 	if err != nil {
 		return nil, err
 	}
+
 	return icdList, nil
 }
