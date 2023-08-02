@@ -1,5 +1,6 @@
 package response
 
+// Icd 疾病查询
 type Icd struct {
 	Id           int64  `json:"ID"`
 	PyShort      string `json:"py_short"`
