@@ -2,9 +2,12 @@ package request
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/wangcb/chg-sdk/chg"
 	"github.com/wangcb/chg-sdk/http"
+	"net/url"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -47,4 +50,15 @@ func Do(req http.Request, url string) (*Result, error) {
 		return nil, err
 	}
 	return &data, nil
+}
+
+func BuildURL(urlPath string, params map[string]string) string {
+	var paramStrings []string
+
+	// 遍历map，将键值对拼接成"key=value"形式的字符串
+	for key, value := range params {
+		paramStrings = append(paramStrings, fmt.Sprintf("%s=%s", key, url.QueryEscape(value)))
+	}
+
+	return fmt.Sprintf("%s?%s", urlPath, strings.Join(paramStrings, "&"))
 }
