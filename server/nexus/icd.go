@@ -24,7 +24,7 @@ func (t *Icd) GetIcd(params map[string]string) (icdList []response.Icd, err erro
 		Method: "GET",
 		URL:    request.BuildURL("/api/getIcd", params),
 	}
-	res, err := request.Do(req, chg.Configure.CoreUrl)
+	res, err := request.Do(req, chg.Configure.NexusUrl)
 	if err != nil {
 		return nil, err
 	}
