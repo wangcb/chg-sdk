@@ -20,6 +20,7 @@ func NewAuth(config *chg.Config) *Auth {
 type JWTCustomClaims struct {
 	UserID   int64  `json:"user_id"`
 	NickName string `json:"user_name"`
+	Extra    string `json:"extra"`
 	jwtpkg.RegisteredClaims
 }
 
@@ -28,20 +29,24 @@ func (t *Auth) ParseToken(token string) (*JWTCustomClaims, error) {
 		return nil, errors.New("需要认证才能访问")
 	}
 	type JWT struct {
-		PublicKey interface{}
+		Secret interface{}
 		// 刷新 Token 的最大过期时间
 		MaxRefresh time.Duration
 	}
-	publicKeyFile, err := os.ReadFile(chg.Configure.PublicKey)
-	if err != nil {
-		return nil, errors.New("获取公钥文件失败")
-	}
-	publicKey, err := jwtpkg.ParseRSAPublicKeyFromPEM(publicKeyFile)
-	if err != nil {
-		return nil, errors.New("解析公钥文件失败")
-	}
-	jwt := &JWT{
-		PublicKey: publicKey,
+	jwt := &JWT{}
+	secret := chg.Configure.JwtSecret
+	if strings.HasSuffix(secret, ".pem") {
+		publicKeyFile, err := os.ReadFile(secret)
+		if err != nil {
+			return nil, errors.New("获取公钥文件失败")
+		}
+		publicKey, err := jwtpkg.ParseRSAPublicKeyFromPEM(publicKeyFile)
+		if err != nil {
+			return nil, errors.New("解析公钥文件失败")
+		}
+		jwt.Secret = publicKey
+	} else {
+		jwt.Secret = []byte(secret)
 	}
 	// 按空格分割
 	parts := strings.SplitN(token, " ", 2)
@@ -49,7 +54,7 @@ func (t *Auth) ParseToken(token string) (*JWTCustomClaims, error) {
 		return nil, errors.New("请求头中 Authorization 格式有误")
 	}
 	jwtToken, err := jwtpkg.ParseWithClaims(parts[1], &JWTCustomClaims{}, func(token *jwtpkg.Token) (interface{}, error) {
-		return jwt.PublicKey, nil
+		return jwt.Secret, nil
 	})
 	if err != nil {
 		validationErr, ok := err.(*jwtpkg.ValidationError)
