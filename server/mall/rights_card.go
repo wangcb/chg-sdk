@@ -46,7 +46,7 @@ func GetUserRights(userCardId int64, userId int64) (*response.UserRightsCard, er
 // RightsUsedCallback 权益使用回调
 func RightsUsedCallback(userCardId int64, rightsNo string, userId int64) (*response.UserRights, error) {
 	req := http.Request{
-		Method: "GET",
+		Method: "POST",
 		URL:    "/internal/rights/notify",
 		Body: map[string]interface{}{
 			"user_card_id": userCardId,
