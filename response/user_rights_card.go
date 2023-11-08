@@ -1,12 +1,14 @@
 package response
 
 type UserRightsCard struct {
-	Id       int64        `json:"id"`
-	UserId   int64        `json:"user_id"`
-	CardName string       `json:"card_name"`
-	CardType string       `json:"card_type"`
-	Version  int64        `json:"version"`
-	Rights   []UserRights `json:"rights"`
+	Id           int64        `json:"id"`
+	UserId       int64        `json:"user_id"`
+	CardName     string       `json:"card_name"`
+	CardType     string       `json:"card_type"`
+	ActivateAt   string       `json:"activate_at"`
+	ExpirationAt string       `json:"expiration_at"`
+	Version      int64        `json:"version"`
+	Rights       []UserRights `json:"rights"`
 }
 
 type UserRights struct {
