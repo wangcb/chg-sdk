@@ -9,6 +9,7 @@ type UserRightsCard struct {
 	ActivateAt   string       `json:"activate_at"`
 	ExpirationAt string       `json:"expiration_at"`
 	Version      int64        `json:"version"`
+	Status       int          `json:"status"`
 	Rights       []UserRights `json:"rights"`
 }
 
