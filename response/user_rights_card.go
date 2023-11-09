@@ -7,9 +7,9 @@ type UserRightsCard struct {
 	CardName     string       `json:"card_name"`
 	CardType     string       `json:"card_type"`
 	ActivateAt   string       `json:"activate_at"`
+	Status       int          `json:"status"`
 	ExpirationAt string       `json:"expiration_at"`
 	Version      int64        `json:"version"`
-	Status       int          `json:"status"`
 	Rights       []UserRights `json:"rights"`
 }
 
