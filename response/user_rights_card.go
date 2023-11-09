@@ -3,6 +3,7 @@ package response
 type UserRightsCard struct {
 	Id           int64        `json:"id"`
 	UserId       int64        `json:"user_id"`
+	CardId       int          `json:"card_id"`
 	CardName     string       `json:"card_name"`
 	CardType     string       `json:"card_type"`
 	ActivateAt   string       `json:"activate_at"`
