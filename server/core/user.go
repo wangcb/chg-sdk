@@ -81,8 +81,7 @@ func (t *User) RegWithPhone(phone string, source string, platform string) (token
 	if res.Code != 200 {
 		return token, errors.New(res.Message)
 	}
-	bytes, _ := json.Marshal(res.Data)
-	return string(bytes), nil
+	return res.Data.(string), nil
 }
 
 // GetUserOpenid 获取用户openid
