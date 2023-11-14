@@ -60,3 +60,49 @@ func (t *User) GetRealName() (*response.RealName, error) {
 	}
 	return &data, nil
 }
+
+// RegWithPhone 手机号注册
+func (t *User) RegWithPhone(phone string, source string, platform string) (token string, err error) {
+	req := http.Request{
+		Method: "POST",
+		URL:    "/api/token/phone",
+		Body: map[string]interface{}{
+			"phone": phone,
+		},
+		Headers: map[string]string{
+			"Source":   source,
+			"Platform": platform,
+		},
+	}
+	res, err := request.Do(req, chg.Configure.CoreUrl)
+	if err != nil {
+		return token, err
+	}
+	if res.Code != 200 {
+		return token, errors.New(res.Message)
+	}
+	bytes, _ := json.Marshal(res.Data)
+	return string(bytes), nil
+}
+
+// GetUserOpenid 获取用户openid
+func (t *User) GetUserOpenid(appid string) (info *response.UserWechatInfo, err error) {
+	req := http.Request{
+		Method: "GET",
+		URL:    "/api/user-wechat?app_id=" + appid,
+	}
+	res, err := request.Do(req, chg.Configure.CoreUrl)
+	if err != nil {
+		return nil, err
+	}
+	if res.Code != 200 {
+		return nil, errors.New(res.Message)
+	}
+	var data response.UserWechatInfo
+	bytes, _ := json.Marshal(res.Data)
+	err = json.Unmarshal(bytes, &data)
+	if err != nil {
+		return nil, err
+	}
+	return &data, nil
+}

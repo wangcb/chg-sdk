@@ -2,7 +2,6 @@ package mall
 
 import (
 	"errors"
-	"fmt"
 	"github.com/goccy/go-json"
 	"github.com/wangcb/chg-sdk/chg"
 	"github.com/wangcb/chg-sdk/http"
@@ -57,7 +56,6 @@ func (r *RightsCard) RightsUsedCallback(userCardId int64, rightsNo string, userI
 			"amount":       amount,
 		},
 	}
-	fmt.Println(req.Body)
 	res, err := request.Do(req, chg.Configure.MallUrl)
 	if err != nil {
 		return nil, err
