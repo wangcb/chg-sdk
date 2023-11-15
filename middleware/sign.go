@@ -1,12 +1,13 @@
 package middleware
 
 import (
-	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/wangcb/chg-sdk/request"
 	"io"
+	"net/http"
 	"strconv"
 	"time"
 )
@@ -33,14 +34,25 @@ func CheckSign(c *gin.Context, secretKey string, expireTime int) error {
 	}
 	// 获取参数
 	var jsonBytes []byte
-	if c.Request.Method != "GET" {
+	if c.Request.Body == http.NoBody {
+		// 处理 GET 请求参数
+		params := c.Request.URL.Query()
+		paramMap := make(map[string]string)
+		for k, v := range params {
+			paramMap[k] = v[0]
+		}
+		jsonBytes, err = json.Marshal(paramMap)
+		if err != nil {
+			return err
+		}
+		fmt.Println("接受的参数：", string(jsonBytes))
+	} else {
 		// 读取请求体内容
-		bodyBytes, err := io.ReadAll(c.Request.Body)
+		jsonBytes, err = io.ReadAll(c.Request.Body)
 		if err != nil {
 			return errors.New("failed to read request body")
 		}
-		c.Request.Body.Close()
-
+		/*c.Request.Body.Close()
 		c.Request.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
 
 		if len(bodyBytes) > 0 {
@@ -53,18 +65,7 @@ func CheckSign(c *gin.Context, secretKey string, expireTime int) error {
 			if err != nil {
 				return err
 			}
-		}
-	} else {
-		// 处理 GET 请求参数
-		params := c.Request.URL.Query()
-		paramMap := make(map[string]string)
-		for k, v := range params {
-			paramMap[k] = v[0]
-		}
-		jsonBytes, err = json.Marshal(paramMap)
-		if err != nil {
-			return err
-		}
+		}*/
 	}
 
 	calcSig := request.SignGenerate(secretKey, c.Request.Method, c.Request.URL.Path, jsonBytes, timestamp)
