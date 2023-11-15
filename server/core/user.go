@@ -85,23 +85,26 @@ func (t *User) RegWithPhone(phone string, source string, platform string) (token
 }
 
 // GetUserOpenid 获取用户openid
-func (t *User) GetUserOpenid(appid string) (info *response.UserWechatInfo, err error) {
+func (t *User) GetUserOpenid(userId int, appid string) (info response.UserWechatInfo, err error) {
 	req := http.Request{
-		Method: "GET",
-		URL:    "/api/user-wechat?app_id=" + appid,
+		Method: "POST",
+		URL:    "/api/user-wechat",
+		Body: map[string]interface{}{
+			"user_id": userId,
+			"app_id":  appid,
+		},
 	}
 	res, err := request.Do(req, chg.Configure.CoreUrl)
 	if err != nil {
-		return nil, err
+		return info, err
 	}
 	if res.Code != 200 {
-		return nil, errors.New(res.Message)
+		return info, errors.New(res.Message)
 	}
-	var data response.UserWechatInfo
 	bytes, _ := json.Marshal(res.Data)
-	err = json.Unmarshal(bytes, &data)
+	err = json.Unmarshal(bytes, &info)
 	if err != nil {
-		return nil, err
+		return info, err
 	}
-	return &data, nil
+	return info, nil
 }
