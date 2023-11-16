@@ -18,7 +18,7 @@ func NewApplet(config *chg.Config) *Applet {
 }
 
 type SubscribeMessage struct {
-	ToUser           string                 `json:"to_user"`
+	UserId           int                    `json:"user_id"`
 	TemplateID       string                 `json:"template_id"`
 	Page             string                 `json:"page"`
 	MiniProgramState string                 `json:"mini_program_state"`
@@ -31,7 +31,7 @@ func (t *Applet) SendSubscribeMessage(data SubscribeMessage, platform string) (r
 		Method: "POST",
 		URL:    "/api/mina/send-subscribe-msg",
 		Body: map[string]interface{}{
-			"to_user":            data.ToUser,
+			"user_id":            data.UserId,
 			"template_id":        data.TemplateID,
 			"page":               data.Page,
 			"mini_program_state": data.MiniProgramState,

@@ -7,6 +7,7 @@ import (
 	"github.com/wangcb/chg-sdk/http"
 	"github.com/wangcb/chg-sdk/request"
 	"github.com/wangcb/chg-sdk/response"
+	"strconv"
 )
 
 type User struct {
@@ -87,10 +88,10 @@ func (t *User) RegWithPhone(phone string, source string, platform string) (token
 // GetUserOpenid 获取用户openid
 func (t *User) GetUserOpenid(userId int, appid string) (info response.UserWechatInfo, err error) {
 	req := http.Request{
-		Method: "POST",
-		URL:    "/api/user-wechat",
+		Method: "GET",
+		URL:    "/api/user-wechat?user_id=" + strconv.Itoa(userId) + "&app_id=" + appid,
 		Body: map[string]interface{}{
-			"user_id": userId,
+			"user_id": strconv.Itoa(userId),
 			"app_id":  appid,
 		},
 	}
