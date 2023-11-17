@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/wangcb/chg-sdk/request"
 	"io"
@@ -46,7 +45,6 @@ func CheckSign(c *gin.Context, secretKey string, expireTime int) error {
 		if err != nil {
 			return err
 		}
-		fmt.Println("接受的参数：", string(jsonBytes))
 	} else {
 		// 读取请求体内容
 		bodyBytes, err := io.ReadAll(c.Request.Body)
