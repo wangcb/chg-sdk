@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -48,11 +49,12 @@ func CheckSign(c *gin.Context, secretKey string, expireTime int) error {
 		fmt.Println("接受的参数：", string(jsonBytes))
 	} else {
 		// 读取请求体内容
-		jsonBytes, err = io.ReadAll(c.Request.Body)
+		bodyBytes, err := io.ReadAll(c.Request.Body)
 		if err != nil {
 			return errors.New("failed to read request body")
 		}
-		/*c.Request.Body.Close()
+		// 可以自动ASCII码排序
+		c.Request.Body.Close()
 		c.Request.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
 
 		if len(bodyBytes) > 0 {
@@ -65,7 +67,7 @@ func CheckSign(c *gin.Context, secretKey string, expireTime int) error {
 			if err != nil {
 				return err
 			}
-		}*/
+		}
 	}
 
 	calcSig := request.SignGenerate(secretKey, c.Request.Method, c.Request.URL.Path, jsonBytes, timestamp)
