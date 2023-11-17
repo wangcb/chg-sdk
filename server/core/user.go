@@ -18,6 +18,32 @@ func NewUser(config *chg.Config) *User {
 	return &User{}
 }
 
+// GetUserList 根据多个用户id字符串获取用户列表数据
+func (t *User) GetUserList(userIds string) (list []response.UserInfo, err error) {
+	req := http.Request{
+		Method: "GET",
+		URL:    "/api/user/list",
+		Body: map[string]interface{}{
+			"ids": userIds,
+		},
+	}
+	res, err := request.Do(req, chg.Configure.CoreUrl)
+	if err != nil {
+		return nil, err
+	}
+	if res.Code != 200 {
+		return nil, errors.New(res.Message)
+	}
+
+	bytes, _ := json.Marshal(res.Data)
+	err = json.Unmarshal(bytes, &list)
+	if err != nil {
+		return nil, err
+	}
+
+	return
+}
+
 // GetInfo 获取用户信息
 func (t *User) GetInfo() (*response.UserInfo, error) {
 	req := http.Request{
