@@ -135,3 +135,19 @@ func (t *User) GetUserOpenid(userId int, appid string) (info response.UserWechat
 	}
 	return info, nil
 }
+
+// RefreshToken 刷新token
+func (t *User) RefreshToken() (string, error) {
+	req := http.Request{
+		Method: "POST",
+		URL:    "/api/token/refresh",
+	}
+	res, err := request.Do(req, chg.Configure.CoreUrl)
+	if err != nil {
+		return "", err
+	}
+	if res.Code != 200 {
+		return "", errors.New(res.Message)
+	}
+	return res.Data.(string), nil
+}
