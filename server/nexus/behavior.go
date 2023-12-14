@@ -17,7 +17,6 @@ func NewBehavior(config *chg.Config) *Behavior {
 }
 
 type BehaviorData struct {
-	Act            string `json:"act"`
 	EventName      string `json:"event_name"`
 	PageUrl        string `json:"page_url"`
 	LaunchScene    int    `json:"launch_scene"`
@@ -30,7 +29,7 @@ type BehaviorData struct {
 	DeviceType     string `json:"device_type"`
 	DeviceId       string `json:"device_id"`
 	OsType         string `json:"os_type"`
-	Channel        string `json:"channel "`
+	Channel        string `json:"channel"`
 	ExternalId     string `json:"external_id"`
 	CreatedAt      int64  `json:"created_at"` //毫秒
 	EntryAt        int64  `json:"entry_at"`   //毫秒
@@ -38,15 +37,12 @@ type BehaviorData struct {
 }
 
 func (t *Behavior) CreateBehavior(behavior BehaviorData) error {
-	var mapData map[string]interface{}
+	mapData := make(map[string]interface{})
 	jsonData, err := json.Marshal(behavior)
 	if err != nil {
 		return err
 	}
-	err = json.Unmarshal(jsonData, &mapData)
-	if err != nil {
-		return err
-	}
+	mapData["act"] = string(jsonData)
 	req := http.Request{
 		Method: "POST",
 		URL:    "/api/user/behavior",
