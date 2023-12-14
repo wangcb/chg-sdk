@@ -16,11 +16,11 @@ func NewUserBehaviorStatistic(config *chg.Config) *UserBehaviorStatistic {
 }
 
 // GetUserBehaviorStatisticList 查询用户行为统计
-func (t *UserBehaviorStatistic) GetUserBehaviorStatisticList(params request.UserBehaviorStatisticSearch) (list []response.UserBehaviorStatistic, err error) {
+func (t *UserBehaviorStatistic) GetUserBehaviorStatisticList(params map[string]interface{}) (list []response.UserBehaviorStatistic, err error) {
 	req := http.Request{
 		Method: "GET",
 		URL:    "user/behaviorStatistic",
-		Body:   StructToMap(params),
+		Body:   params,
 	}
 	res, err := request.Do(req, chg.Configure.NexusUrl)
 	if err != nil {
@@ -36,15 +36,4 @@ func (t *UserBehaviorStatistic) GetUserBehaviorStatisticList(params request.User
 	}
 
 	return list, nil
-}
-
-// StructToMap 结构体转map[string]interface{}
-func StructToMap(obj interface{}) map[string]interface{} {
-	b, _ := json.Marshal(obj)
-	var m map[string]interface{}
-	err := json.Unmarshal(b, &m)
-	if err != nil {
-		return nil
-	}
-	return m
 }
