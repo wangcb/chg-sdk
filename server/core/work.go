@@ -92,6 +92,67 @@ func (t *Work) ContactQrcode(platform string, userId string, state string) (qrco
 	return qrcode, nil
 }
 
+func (t *Work) ContactWayList(platform string, cursor string, limit int) (items []response.ContactListItem, err error) {
+	req := http.Request{
+		Method: "GET",
+		URL:    "/api/work/contact",
+		Body: map[string]interface{}{
+			"cursor": cursor,
+			"limit":  strconv.Itoa(limit),
+		},
+		Headers: map[string]string{
+			"Platform": platform,
+		},
+	}
+	res, err := request.Do(req, chg.Configure.CoreUrl)
+	if err != nil {
+		return items, err
+	}
+	if res.Code != 200 {
+		return items, errors.New(res.Message)
+	}
+	bytes, _ := json.Marshal(res.Data)
+	var contactList = response.ContactList{}
+	err = json.Unmarshal(bytes, &contactList)
+	if err != nil {
+		return items, err
+	}
+	if contactList.ErrCode != 0 {
+		return items, errors.New(contactList.ErrMsg)
+	}
+
+	return contactList.ContactWay, nil
+}
+
+func (t *Work) ContactWayDetail(platform string, configId string) (detail response.ContactDetail, err error) {
+	req := http.Request{
+		Method: "GET",
+		URL:    "/api/work/contact/" + configId,
+		Body: map[string]interface{}{
+			"config_id": configId,
+		},
+		Headers: map[string]string{
+			"Platform": platform,
+		},
+	}
+	res, err := request.Do(req, chg.Configure.CoreUrl)
+	if err != nil {
+		return detail, err
+	}
+	if res.Code != 200 {
+		return detail, errors.New(res.Message)
+	}
+	bytes, _ := json.Marshal(res.Data)
+	err = json.Unmarshal(bytes, &detail)
+	if err != nil {
+		return detail, err
+	}
+	if detail.ErrCode != 0 {
+		return detail, errors.New(detail.ErrMsg)
+	}
+	return detail, nil
+}
+
 // TagCustomer 给外部联系人打标签
 func (t *Work) TagCustomer(platform string, userId string, externalUserId string, tag []string) (err error) {
 	req := http.Request{

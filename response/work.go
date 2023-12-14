@@ -21,3 +21,17 @@ type WorkCommon struct {
 	ErrCode int64  `json:"err_code"`
 	ErrMsg  string `json:"errmsg"`
 }
+
+type ContactList struct {
+	WorkCommon
+	ContactWay []ContactListItem `json:"contact_way"`
+}
+
+type ContactListItem struct {
+	ConfigId string `json:"config_id"`
+}
+
+type ContactDetail struct {
+	WorkCommon
+	ContactWay map[string]interface{} `json:"contact_way"`
+}
