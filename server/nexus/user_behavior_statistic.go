@@ -11,6 +11,7 @@ import (
 type UserBehaviorStatistic struct{}
 
 func NewUserBehaviorStatistic(config *chg.Config) *UserBehaviorStatistic {
+	config.InitConfig()
 	return &UserBehaviorStatistic{}
 }
 
