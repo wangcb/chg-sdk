@@ -18,7 +18,7 @@ type ContactQrcode struct {
 }
 
 type WorkCommon struct {
-	ErrCode int64  `json:"err_code"`
+	ErrCode int64  `json:"errcode"`
 	ErrMsg  string `json:"errmsg"`
 }
 
