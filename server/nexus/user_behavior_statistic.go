@@ -18,8 +18,8 @@ func NewUserBehaviorStatistic(config *chg.Config) *UserBehaviorStatistic {
 // GetUserBehaviorStatisticList 查询用户行为统计
 func (t *UserBehaviorStatistic) GetUserBehaviorStatisticList(params map[string]interface{}) (list map[string]interface{}, err error) {
 	req := http.Request{
-		Method: "GET",
-		URL:    "user/behaviorStatistic",
+		Method: "POST",
+		URL:    "/api/user/behaviorStatistic",
 		Body:   params,
 	}
 	res, err := request.Do(req, chg.Configure.NexusUrl)

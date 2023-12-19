@@ -11,7 +11,7 @@ type UserBehaviorStatistic struct {
 	ExternalUserId string    `json:"external_user_id"`
 	OrderAmount    int       `json:"order_amount"`
 	OrderAt        time.Time `json:"order_at"`
-	PatAmount      int       `json:"pat_amount"`
+	PayAmount      int       `json:"pay_amount"`
 	PayAt          time.Time `json:"pay_at"`
 	ScanAt         time.Time `json:"scan_at"`
 	LoginAt        time.Time `json:"login_at"`
