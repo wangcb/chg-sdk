@@ -18,6 +18,65 @@ func NewWork(config *chg.Config) *Work {
 	return &Work{}
 }
 
+func (t *Work) GetDepartmentList(platform string) (department []response.WorkDepartment, err error) {
+	req := http.Request{
+		Method: "GET",
+		URL:    "/api/work/department",
+		Body:   map[string]interface{}{},
+		Headers: map[string]string{
+			"Platform": platform,
+		},
+	}
+	res, err := request.Do(req, chg.Configure.CoreUrl)
+	if err != nil {
+		return department, err
+	}
+	if res.Code != 200 {
+		return department, errors.New(res.Message)
+	}
+	var departmentResponse response.WorkDepartmentResp
+	bytes, _ := json.Marshal(res.Data)
+	err = json.Unmarshal(bytes, &departmentResponse)
+	if err != nil {
+		return department, err
+	}
+	if departmentResponse.ErrCode != 0 {
+		return department, errors.New(departmentResponse.ErrMsg)
+	}
+
+	return departmentResponse.DepartmentList, nil
+}
+
+func (t *Work) GetDepartmentUserList(platform string, departmentId string) (users []response.WorkDepartmentUserList, err error) {
+	req := http.Request{
+		Method: "POST",
+		URL:    "/api/work/department/users",
+		Body: map[string]interface{}{
+			"department_id": departmentId,
+		},
+		Headers: map[string]string{
+			"Platform": platform,
+		},
+	}
+	res, err := request.Do(req, chg.Configure.CoreUrl)
+	if err != nil {
+		return users, err
+	}
+	if res.Code != 200 {
+		return users, errors.New(res.Message)
+	}
+	var resp response.WorkDepartmentUsers
+	bytes, _ := json.Marshal(res.Data)
+	err = json.Unmarshal(bytes, &resp)
+	if err != nil {
+		return users, err
+	}
+	if resp.ErrCode != 0 {
+		return users, errors.New(resp.ErrMsg)
+	}
+	return resp.UserList, nil
+}
+
 // GetWorkUserList 获取企业微信员工列表
 func (t *Work) GetWorkUserList(platform string, cursor string, limit int) (users response.WorkUserList, err error) {
 	req := http.Request{
