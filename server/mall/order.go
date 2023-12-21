@@ -7,6 +7,7 @@ import (
 	"github.com/wangcb/chg-sdk/http"
 	"github.com/wangcb/chg-sdk/request"
 	"strconv"
+	"strings"
 )
 
 type Order struct {
@@ -58,6 +59,31 @@ func (r *Order) GetUserOrderDetail(orderNo string) (map[string]interface{}, erro
 		return nil, errors.New(res.Msg)
 	}
 	var data map[string]interface{}
+	bytes, _ := json.Marshal(res.Data)
+	err = json.Unmarshal(bytes, &data)
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
+}
+
+// GetPrescriptionOrders 根据处方单号查询订单数据
+func (r *Order) GetPrescriptionOrders(prescriptionNoSlice []string) ([]map[string]interface{}, error) {
+	req := http.Request{
+		Method: "GET",
+		URL:    "/internal/prescription/orders",
+		Body: map[string]interface{}{
+			"prescription_no": strings.Join(prescriptionNoSlice, ","),
+		},
+	}
+	res, err := request.Do(req, chg.Configure.MallUrl)
+	if err != nil {
+		return nil, err
+	}
+	if res.Code != 200 {
+		return nil, errors.New(res.Msg)
+	}
+	var data []map[string]interface{}
 	bytes, _ := json.Marshal(res.Data)
 	err = json.Unmarshal(bytes, &data)
 	if err != nil {
