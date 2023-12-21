@@ -245,6 +245,7 @@ func (t *Work) TagCustomer(platform string, userId string, externalUserId string
 	return nil
 }
 
+// WorkExternalUserDetail 外部联系人详情
 func (t *Work) WorkExternalUserDetail(platform string, workExternalUserId string) (data response.WorkExternalUserDetail, err error) {
 	req := http.Request{
 		Method: "GET",
