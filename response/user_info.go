@@ -8,4 +8,10 @@ type UserInfo struct {
 	Email      string `json:"email"`
 	RegSource  int    `json:"reg_source"`
 	IsRealName int    `json:"is_real_name"`
+	Activity   string `json:"activity"`
+}
+
+type WorkExternalUserListByCore struct {
+	List  []UserInfo `json:"list"`
+	Total int64      `json:"total"`
 }
