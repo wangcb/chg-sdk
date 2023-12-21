@@ -244,3 +244,32 @@ func (t *Work) TagCustomer(platform string, userId string, externalUserId string
 	}
 	return nil
 }
+
+func (t *Work) WorkExternalUserDetail(platform string, workExternalUserId string) (data response.WorkExternalUserDetail, err error) {
+	req := http.Request{
+		Method: "GET",
+		URL:    "/api/work/external/user/" + workExternalUserId,
+		Body: map[string]interface{}{
+			"external_user_id": workExternalUserId,
+		},
+		Headers: map[string]string{
+			"Platform": platform,
+		},
+	}
+	res, err := request.Do(req, chg.Configure.CoreUrl)
+	if err != nil {
+		return data, err
+	}
+	if res.Code != 200 {
+		return data, errors.New(res.Message)
+	}
+	bytes, _ := json.Marshal(res.Data)
+	err = json.Unmarshal(bytes, &data)
+	if err != nil {
+		return data, err
+	}
+	if data.ErrCode != 0 {
+		return data, errors.New(data.ErrMsg)
+	}
+	return data, nil
+}

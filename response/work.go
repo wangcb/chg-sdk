@@ -61,3 +61,10 @@ type WorkDepartment struct {
 	ParentId         int      `json:"parentid"`
 	Order            int      `json:"order"`
 }
+
+type WorkExternalUserDetail struct {
+	WorkCommon
+	ExternalContact map[string]interface{}   `json:"external_contact"`
+	FollowUser      []map[string]interface{} `json:"follow_user"`
+	NextCursor      string                   `json:"next_cursor"`
+}
