@@ -33,7 +33,7 @@ func (r *RightsDrug) GetRightsDrug(params map[string]interface{}) ([]interface{}
 	}
 	req := http.Request{
 		Method: "GET",
-		URL:    "/internal/rights-drug-goods",
+		URL:    "/internal/rights/drugs",
 		Body:   body,
 	}
 	res, err := request.Do(req, chg.Configure.MallUrl)
