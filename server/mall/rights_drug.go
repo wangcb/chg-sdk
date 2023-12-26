@@ -6,6 +6,7 @@ import (
 	"github.com/wangcb/chg-sdk/chg"
 	"github.com/wangcb/chg-sdk/http"
 	"github.com/wangcb/chg-sdk/request"
+	"github.com/wangcb/chg-sdk/response"
 )
 
 type RightsDrug struct {
@@ -17,7 +18,7 @@ func NewRightsDrug(config *chg.Config) *RightsDrug {
 }
 
 // GetRightsDrug 获取权益卡药品清单的药品
-func (r *RightsDrug) GetRightsDrug(params map[string]interface{}) ([]interface{}, error) {
+func (r *RightsDrug) GetRightsDrug(params map[string]interface{}) (data response.RightsDrugResponse, err error) {
 	body := map[string]interface{}{}
 	if _, ok := params["card_id"]; ok {
 		body["card_id"] = params["card_id"]
@@ -38,16 +39,15 @@ func (r *RightsDrug) GetRightsDrug(params map[string]interface{}) ([]interface{}
 	}
 	res, err := request.Do(req, chg.Configure.MallUrl)
 	if err != nil {
-		return nil, err
+		return data, err
 	}
 	if res.Code != 200 {
-		return nil, errors.New(res.Msg)
+		return data, errors.New(res.Msg)
 	}
-	var data []interface{}
 	bytes, _ := json.Marshal(res.Data)
 	err = json.Unmarshal(bytes, &data)
 	if err != nil {
-		return nil, err
+		return data, err
 	}
 	return data, nil
 }
