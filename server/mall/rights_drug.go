@@ -23,6 +23,9 @@ func (r *RightsDrug) GetRightsDrug(params map[string]interface{}) (data response
 	if _, ok := params["card_id"]; ok {
 		body["card_id"] = params["card_id"]
 	}
+	if _, ok := params["user_card_id"]; ok {
+		body["user_card_id"] = params["user_card_id"]
+	}
 	if _, ok := params["keyword"]; ok {
 		body["keyword"] = params["keyword"]
 	}
