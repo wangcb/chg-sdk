@@ -12,19 +12,33 @@ import (
 )
 
 type Result struct {
-	Code    int    `json:"code"`
-	Message string `json:"message"`
-	Msg     string `json:"msg"`
-	Data    interface{}
+	Code    int         `json:"code"`
+	Message string      `json:"message"`
+	Msg     string      `json:"msg"`
+	Data    interface{} `json:"data"`
 }
 
 func Do(req http.Request, url string) (*Result, error) {
 	timestamp := time.Now().Unix()
+	method := strings.ToUpper(req.Method)
 	var bodyBytes []byte
 	if req.Body != nil {
+		// 将 map 中的值全部转换为字符串
+		if method == "GET" {
+			for key, value := range req.Body {
+				switch v := value.(type) {
+				case int:
+					req.Body[key] = strconv.Itoa(v)
+				case float64:
+					req.Body[key] = strconv.FormatFloat(v, 'f', -1, 64)
+				default:
+					req.Body[key] = fmt.Sprintf("%v", v)
+				}
+			}
+		}
 		bodyBytes, _ = json.Marshal(req.Body)
 	}
-	sign := SignGenerate(chg.Configure.SignSecret, req.Method, req.URL, bodyBytes, timestamp)
+	sign := SignGenerate(chg.Configure.SignSecret, method, req.URL, bodyBytes, timestamp)
 	// 组装header 信息
 	headers := make(map[string]string)
 	if req.Headers != nil {
@@ -45,10 +59,19 @@ func Do(req http.Request, url string) (*Result, error) {
 	if err != nil {
 		return nil, err
 	}
+	statusCode := resp.StatusCode
+
 	var data Result
 	err = json.Unmarshal(resp.Body, &data)
 	if err != nil {
 		return nil, err
+	}
+	if statusCode != 200 && statusCode != 201 {
+		errMsg := data.Message
+		if errMsg == "" {
+			errMsg = data.Msg
+		}
+		return nil, fmt.Errorf("%s", errMsg)
 	}
 	return &data, nil
 }

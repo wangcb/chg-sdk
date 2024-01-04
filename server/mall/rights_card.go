@@ -5,7 +5,6 @@ import (
 	"github.com/wangcb/chg-sdk/chg"
 	"github.com/wangcb/chg-sdk/http"
 	"github.com/wangcb/chg-sdk/request"
-	"strconv"
 )
 
 type RightsCard struct {
@@ -22,8 +21,8 @@ func (r *RightsCard) HasUserRights(userCardId int64, userId int64, rightsNo stri
 		Method: "GET",
 		URL:    "/internal/user/rights",
 		Body: map[string]interface{}{
-			"user_card_id": strconv.Itoa(int(userCardId)),
-			"user_id":      strconv.Itoa(int(userId)),
+			"user_card_id": userCardId,
+			"user_id":      userId,
 			"rights_no":    rightsNo,
 		},
 	}
@@ -31,10 +30,7 @@ func (r *RightsCard) HasUserRights(userCardId int64, userId int64, rightsNo stri
 	if err != nil {
 		return false, err
 	}
-	if res.Code != 200 {
-		return false, errors.New(res.Msg)
-	}
-	return true, nil
+	return res.Data.(bool), nil
 }
 
 // RightsUsedCallback 权益使用回调
