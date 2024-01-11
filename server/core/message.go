@@ -4,6 +4,7 @@ import (
 	"chg-sdk/request"
 	"core-user/app/model/message"
 	messageRes "core-user/app/request"
+	message2 "core-user/app/response/message"
 	"encoding/json"
 	"errors"
 	"github.com/wangcb/chg-sdk/chg"
@@ -17,6 +18,31 @@ type Message struct {
 func NewMessage(config *chg.Config) *Message {
 	config.InitConfig()
 	return &Message{}
+}
+
+// GetWechatTemplate 根据应用获取微信后台配置的模板列表 （微信官方配置的模板）
+func (t *Message) GetWechatTemplate(platForm string) ([]message2.WechatTemplate, error) {
+	req := http.Request{
+		Method: "GET",
+		URL:    "/api/message/getWechatTemplate",
+		Headers: map[string]string{
+			"Platform": platForm,
+		},
+	}
+	res, err := request.Do(req, chg.Configure.CoreUrl)
+	if err != nil {
+		return nil, err
+	}
+	if res.Code != 200 {
+		return nil, errors.New(res.Message)
+	}
+	var data []message2.WechatTemplate
+	bytes, _ := json.Marshal(res.Data)
+	err = json.Unmarshal(bytes, &data)
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
 }
 
 // TemplateList 获取模板配置列表
