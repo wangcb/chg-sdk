@@ -56,6 +56,7 @@ func (t *Message) TemplateAdd(params messageRes.TemplateParam) error {
 		Body: map[string]interface{}{
 			"appid":           params.Appid,
 			"identify":        params.Identify,
+			"scene_desc":      params.SceneDesc,
 			"channel":         params.Channel,
 			"title":           params.Title,
 			"content":         params.Content,
@@ -86,6 +87,7 @@ func (t *Message) TemplateEdit(params messageRes.TemplateParam) error {
 			"id":              params.Id,
 			"appid":           params.Appid,
 			"identify":        params.Identify,
+			"scene_desc":      params.SceneDesc,
 			"channel":         params.Channel,
 			"title":           params.Title,
 			"content":         params.Content,
