@@ -1,12 +1,12 @@
 package core
 
 import (
-	"chg-sdk/request"
-	"chg-sdk/response"
 	"encoding/json"
 	"errors"
 	"github.com/wangcb/chg-sdk/chg"
 	"github.com/wangcb/chg-sdk/http"
+	"github.com/wangcb/chg-sdk/request"
+	"github.com/wangcb/chg-sdk/response"
 	"strconv"
 )
 
