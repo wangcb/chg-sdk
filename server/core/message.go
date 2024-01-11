@@ -2,9 +2,7 @@ package core
 
 import (
 	"chg-sdk/request"
-	"core-user/app/model/message"
-	messageRes "core-user/app/request"
-	message2 "core-user/app/response/message"
+	"chg-sdk/response"
 	"encoding/json"
 	"errors"
 	"github.com/wangcb/chg-sdk/chg"
@@ -21,7 +19,7 @@ func NewMessage(config *chg.Config) *Message {
 }
 
 // GetWechatTemplate 根据应用获取微信后台配置的模板列表 （微信官方配置的模板）
-func (t *Message) GetWechatTemplate(platForm string) ([]message2.WechatTemplate, error) {
+func (t *Message) GetWechatTemplate(platForm string) ([]response.WechatTemplate, error) {
 	req := http.Request{
 		Method: "GET",
 		URL:    "/api/message/getWechatTemplate",
@@ -36,7 +34,7 @@ func (t *Message) GetWechatTemplate(platForm string) ([]message2.WechatTemplate,
 	if res.Code != 200 {
 		return nil, errors.New(res.Message)
 	}
-	var data []message2.WechatTemplate
+	var data []response.WechatTemplate
 	bytes, _ := json.Marshal(res.Data)
 	err = json.Unmarshal(bytes, &data)
 	if err != nil {
@@ -46,7 +44,7 @@ func (t *Message) GetWechatTemplate(platForm string) ([]message2.WechatTemplate,
 }
 
 // TemplateList 获取模板配置列表
-func (t *Message) TemplateList(params messageRes.TemplateList) (data []*message.MessageTemplate, err error) {
+func (t *Message) TemplateList(params request.TemplateList) (data []*response.MessageTemplate, err error) {
 	req := http.Request{
 		Method: "GET",
 		URL:    "/api/message/template",
@@ -74,7 +72,7 @@ func (t *Message) TemplateList(params messageRes.TemplateList) (data []*message.
 }
 
 // TemplateAdd 模板配置新增
-func (t *Message) TemplateAdd(params messageRes.TemplateParam) error {
+func (t *Message) TemplateAdd(params request.TemplateParam) error {
 	req := http.Request{
 		Method: "POST",
 		URL:    "/api/message/template",
@@ -104,7 +102,7 @@ func (t *Message) TemplateAdd(params messageRes.TemplateParam) error {
 }
 
 // TemplateEdit 模板配置修改
-func (t *Message) TemplateEdit(params messageRes.TemplateParam) error {
+func (t *Message) TemplateEdit(params request.TemplateParam) error {
 	req := http.Request{
 		Method: "PUT",
 		URL:    "/api/message/template",
@@ -134,7 +132,7 @@ func (t *Message) TemplateEdit(params messageRes.TemplateParam) error {
 }
 
 // TemplateDetail 模板详情
-func (t *Message) TemplateDetail(id int) (data *message.MessageTemplate, err error) {
+func (t *Message) TemplateDetail(id int) (data *response.MessageTemplate, err error) {
 	req := http.Request{
 		Method: "GET",
 		URL:    "/api/message/template/" + strconv.Itoa(id),
