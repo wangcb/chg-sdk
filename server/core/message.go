@@ -46,7 +46,7 @@ func (t *Message) GetWechatTemplate(platForm string) ([]message2.WechatTemplate,
 }
 
 // TemplateList 获取模板配置列表
-func (t *Message) TemplateList(params messageRes.TemplateList) (*message.MessageTemplate, error) {
+func (t *Message) TemplateList(params messageRes.TemplateList) (data []*message.MessageTemplate, err error) {
 	req := http.Request{
 		Method: "GET",
 		URL:    "/api/message/template",
@@ -65,13 +65,12 @@ func (t *Message) TemplateList(params messageRes.TemplateList) (*message.Message
 	if res.Code != 200 {
 		return nil, errors.New(res.Message)
 	}
-	var data message.MessageTemplate
 	bytes, _ := json.Marshal(res.Data)
 	err = json.Unmarshal(bytes, &data)
 	if err != nil {
 		return nil, err
 	}
-	return &data, nil
+	return data, nil
 }
 
 // TemplateAdd 模板配置新增
@@ -132,6 +131,27 @@ func (t *Message) TemplateEdit(params messageRes.TemplateParam) error {
 		return errors.New(res.Message)
 	}
 	return nil
+}
+
+// TemplateDetail 模板详情
+func (t *Message) TemplateDetail(id int) (data *message.MessageTemplate, err error) {
+	req := http.Request{
+		Method: "GET",
+		URL:    "/api/message/template/" + strconv.Itoa(id),
+	}
+	res, err := request.Do(req, chg.Configure.CoreUrl)
+	if err != nil {
+		return nil, err
+	}
+	if res.Code != 200 {
+		return nil, errors.New(res.Message)
+	}
+	bytes, _ := json.Marshal(res.Data)
+	err = json.Unmarshal(bytes, &data)
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
 }
 
 // TemplateDel 模板删除
