@@ -28,7 +28,7 @@ type TemplateParam struct {
 
 type SendMessage struct {
 	Identify     string `json:"identify" form:"identify"`
-	PushType     string `json:"push_type" form:"push_type"`
+	PushType     int    `json:"push_type" form:"push_type"`
 	ToUser       string `json:"to_user" form:"to_user"`
 	RequestParam string `json:"request_param" form:"request_param"`
 	Content      string `json:"content" form:"content" label:"消息内容"`
