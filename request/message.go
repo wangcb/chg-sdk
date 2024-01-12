@@ -27,11 +27,10 @@ type TemplateParam struct {
 }
 
 type SendMessage struct {
-	Identify     string `json:"identify" form:"identify" validate:"required" label:"模板标识"`
-	PushType     string `json:"push_type" form:"push_type" validate:"required" label:"消息类型"`
+	Identify     string `json:"identify" form:"identify"`
+	PushType     string `json:"push_type" form:"push_type"`
 	ToUser       string `json:"to_user" form:"to_user"`
-	Channel      string `json:"channel" form:"channel" validate:"required" label:"通知渠道 json串"`
-	RequestParam string `json:"request_param" form:"request_param" label:"模板参数 json串"`
+	RequestParam string `json:"request_param" form:"request_param"`
 	Content      string `json:"content" form:"content" label:"消息内容"`
 }
 

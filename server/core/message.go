@@ -180,7 +180,6 @@ func (t *Message) SendMessage(params request.SendMessage) error {
 			"push_type":     params.PushType,
 			"to_user":       params.ToUser,
 			"request_param": params.RequestParam,
-			"channel":       params.Channel,
 			"content":       params.Content,
 		},
 	}
