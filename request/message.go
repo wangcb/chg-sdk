@@ -16,6 +16,7 @@ type TemplateParam struct {
 	Channel        string `json:"channel" form:"channel" validate:"required" label:"通知渠道"`
 	Title          string `json:"title" form:"title" validate:"required" label:"标题"`
 	Content        string `json:"content" form:"content" validate:"required" label:"content"`
+	TempParams     string `json:"temp_params" form:"temp_params"`
 	WechatTempId   string `json:"wechat_temp_id" form:"wechat_temp_id"`
 	FeishuUrl      string `json:"feishu_url" form:"feishu_url"`
 	TargetPlatform string `json:"target_platform" form:"target_platform"`
