@@ -167,3 +167,33 @@ func (t *Message) TemplateDel(id int) error {
 	}
 	return nil
 }
+
+// SendMessage 消息发送
+func (t *Message) SendMessage(params request.SendMessage) error {
+	req := http.Request{
+		Method: "POST",
+		URL:    "/api/message/template",
+		Body: map[string]interface{}{
+			"appid":           params.Appid,
+			"identify":        params.Identify,
+			"scene_desc":      params.SceneDesc,
+			"channel":         params.Channel,
+			"title":           params.Title,
+			"content":         params.Content,
+			"wechat_temp_id":  params.WechatTempId,
+			"feishu_url":      params.FeishuUrl,
+			"target_platform": params.TargetPlatform,
+			"status":          params.Status,
+			"creator":         params.Creator,
+			"updater":         params.Updater,
+		},
+	}
+	res, err := request.Do(req, chg.Configure.CoreUrl)
+	if err != nil {
+		return err
+	}
+	if res.Code != 200 {
+		return errors.New(res.Message)
+	}
+	return nil
+}
