@@ -29,3 +29,8 @@ type MessageTemplate struct {
 	CreatedAt      time.Time `gorm:"column:created_at;" json:"created_at,omitempty"`
 	UpdatedAt      time.Time `gorm:"column:updated_at;" json:"updated_at,omitempty"`
 }
+
+type TemplateList struct {
+	TotalCount int64              `json:"totalCount"`
+	List       []*MessageTemplate `json:"list"`
+}

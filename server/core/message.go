@@ -44,7 +44,7 @@ func (t *Message) GetWechatTemplate(platForm string) ([]response.WechatTemplate,
 }
 
 // TemplateList 获取模板配置列表
-func (t *Message) TemplateList(params request.TemplateList) (data []*response.MessageTemplate, err error) {
+func (t *Message) TemplateList(params request.TemplateList) (data []response.TemplateList, err error) {
 	req := http.Request{
 		Method: "GET",
 		URL:    "/api/message/template",
