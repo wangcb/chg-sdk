@@ -1,12 +1,13 @@
 package request
 
 type TemplateList struct {
-	Page     int    `json:"page" form:"page"` // 页码
-	PageSize int    `json:"size" form:"size"` // 每页大小
-	Id       int    `json:"id" form:"id"`
-	Appid    string `json:"appid" form:"appid"`
-	Channel  string `json:"channel" form:"channel"`
-	Status   int    `json:"status" form:"status"`
+	Page      int    `json:"page" form:"page"` // 页码
+	PageSize  int    `json:"size" form:"size"` // 每页大小
+	Id        int    `json:"id" form:"id"`
+	Appid     string `json:"appid" form:"appid"`
+	Channel   string `json:"channel" form:"channel"`
+	Status    int    `json:"status" form:"status"`
+	GroupType int    `json:"group_type" form:"group_type"`
 }
 
 type TemplateParam struct {
@@ -20,6 +21,7 @@ type TemplateParam struct {
 	WechatTempId   string `json:"wechat_temp_id" form:"wechat_temp_id"`
 	FeishuUrl      string `json:"feishu_url" form:"feishu_url"`
 	TargetPlatform string `json:"target_platform" form:"target_platform"`
+	GroupType      int    `json:"group_type" form:"group_type"`
 	Status         int    `json:"status" form:"status"`
 	Creator        int    `json:"creator" form:"creator"`
 	Updater        int    `json:"updater" form:"updater"`

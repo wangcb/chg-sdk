@@ -49,11 +49,12 @@ func (t *Message) TemplateList(params request.TemplateList) (data []*response.Me
 		Method: "GET",
 		URL:    "/api/message/template",
 		Body: map[string]interface{}{
-			"page":    params.Page,
-			"size":    params.PageSize,
-			"appid":   params.Appid,
-			"channel": params.Channel,
-			"status":  params.Status,
+			"page":       params.Page,
+			"size":       params.PageSize,
+			"appid":      params.Appid,
+			"channel":    params.Channel,
+			"status":     params.Status,
+			"group_type": params.GroupType,
 		},
 	}
 	res, err := request.Do(req, chg.Configure.CoreUrl)
@@ -87,6 +88,7 @@ func (t *Message) TemplateAdd(params request.TemplateParam) error {
 			"wechat_temp_id":  params.WechatTempId,
 			"feishu_url":      params.FeishuUrl,
 			"target_platform": params.TargetPlatform,
+			"group_type":      params.GroupType,
 			"status":          params.Status,
 			"creator":         params.Creator,
 			"updater":         params.Updater,
@@ -118,6 +120,7 @@ func (t *Message) TemplateEdit(params request.TemplateParam) error {
 			"content":         params.Content,
 			"wechat_temp_id":  params.WechatTempId,
 			"feishu_url":      params.FeishuUrl,
+			"group_type":      params.GroupType,
 			"target_platform": params.TargetPlatform,
 			"status":          params.Status,
 			"updater":         params.Updater,
