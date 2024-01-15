@@ -15,7 +15,7 @@ func NewApplication(config *chg.Config) *Application {
 	return &Application{}
 }
 
-func (a *Application) GetUserBehaviorStatisticList() (list map[string]interface{}, err error) {
+func (a *Application) GetApplicationList() (list map[string]interface{}, err error) {
 	req := http.Request{
 		Method: "GET",
 		URL:    "/api/application",
