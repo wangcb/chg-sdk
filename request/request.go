@@ -37,6 +37,8 @@ func Do(req http.Request, url string) (*Result, error) {
 			}
 		}
 		bodyBytes, _ = json.Marshal(req.Body)
+	} else {
+		bodyBytes = []byte("{}")
 	}
 	sign := SignGenerate(chg.Configure.SignSecret, method, req.URL, bodyBytes, timestamp)
 	// 组装header 信息
