@@ -83,6 +83,7 @@ func (t *Message) TemplateAdd(params request.TemplateParam) error {
 			"channel":         params.Channel,
 			"title":           params.Title,
 			"content":         params.Content,
+			"temp_params":     params.TempParams,
 			"wechat_temp_id":  params.WechatTempId,
 			"feishu_url":      params.FeishuUrl,
 			"target_platform": params.TargetPlatform,
@@ -112,6 +113,7 @@ func (t *Message) TemplateEdit(params request.TemplateParam) error {
 			"identify":        params.Identify,
 			"scene_desc":      params.SceneDesc,
 			"channel":         params.Channel,
+			"temp_params":     params.TempParams,
 			"title":           params.Title,
 			"content":         params.Content,
 			"wechat_temp_id":  params.WechatTempId,
@@ -157,6 +159,49 @@ func (t *Message) TemplateDel(id int) error {
 	req := http.Request{
 		Method: "DELETE",
 		URL:    "/api/message/template/" + strconv.Itoa(id),
+	}
+	res, err := request.Do(req, chg.Configure.CoreUrl)
+	if err != nil {
+		return err
+	}
+	if res.Code != 200 {
+		return errors.New(res.Message)
+	}
+	return nil
+}
+
+// SendMessage 消息发送
+func (t *Message) SendMessage(params request.SendMessage) error {
+	req := http.Request{
+		Method: "POST",
+		URL:    "/api/message/send",
+		Body: map[string]interface{}{
+			"identify":      params.Identify,
+			"push_type":     params.PushType,
+			"to_user":       params.ToUser,
+			"request_param": params.RequestParam,
+			"content":       params.Content,
+		},
+	}
+	res, err := request.Do(req, chg.Configure.CoreUrl)
+	if err != nil {
+		return err
+	}
+	if res.Code != 200 {
+		return errors.New(res.Message)
+	}
+	return nil
+}
+
+// ReadMessage 消息已读
+func (t *Message) ReadMessage(params request.ReadUser) error {
+	req := http.Request{
+		Method: "POST",
+		URL:    "/api/message/read",
+		Body: map[string]interface{}{
+			"user_id":    params.UserId,
+			"message_id": params.MessageId,
+		},
 	}
 	res, err := request.Do(req, chg.Configure.CoreUrl)
 	if err != nil {
