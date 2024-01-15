@@ -6,6 +6,7 @@ import (
 	"github.com/wangcb/chg-sdk/chg"
 	"github.com/wangcb/chg-sdk/http"
 	"github.com/wangcb/chg-sdk/request"
+	"github.com/wangcb/chg-sdk/response"
 )
 
 type Application struct{}
@@ -15,7 +16,7 @@ func NewApplication(config *chg.Config) *Application {
 	return &Application{}
 }
 
-func (a *Application) GetApplicationList() (list map[string]interface{}, err error) {
+func (a *Application) GetApplicationList() (list []response.Application, err error) {
 	req := http.Request{
 		Method: "GET",
 		URL:    "/api/application",
