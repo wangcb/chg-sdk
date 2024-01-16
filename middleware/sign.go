@@ -7,7 +7,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/wangcb/chg-sdk/request"
 	"io"
-	"net/http"
 	"strconv"
 	"time"
 )
@@ -34,16 +33,18 @@ func CheckSign(c *gin.Context, secretKey string, expireTime int) error {
 	}
 	// 获取参数
 	var jsonBytes []byte
-	if c.Request.Body == http.NoBody {
+	if c.Request.Method == "GET" {
 		// 处理 GET 请求参数
 		params := c.Request.URL.Query()
-		paramMap := make(map[string]string)
-		for k, v := range params {
-			paramMap[k] = v[0]
-		}
-		jsonBytes, err = json.Marshal(paramMap)
-		if err != nil {
-			return err
+		if len(params) > 0 {
+			paramMap := make(map[string]string)
+			for k, v := range params {
+				paramMap[k] = v[0]
+			}
+			jsonBytes, err = json.Marshal(paramMap)
+			if err != nil {
+				return err
+			}
 		}
 	} else {
 		// 读取请求体内容
