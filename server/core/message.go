@@ -44,7 +44,7 @@ func (t *Message) GetWechatTemplate(platForm string) ([]response.WechatTemplate,
 }
 
 // TemplateList 获取模板配置列表
-func (t *Message) TemplateList(params request.TemplateList) (data []response.TemplateList, err error) {
+func (t *Message) TemplateList(params request.TemplateList) (list []*response.MessageTemplate, total int64, err error) {
 	req := http.Request{
 		Method: "GET",
 		URL:    "/api/message/template",
@@ -59,17 +59,18 @@ func (t *Message) TemplateList(params request.TemplateList) (data []response.Tem
 	}
 	res, err := request.Do(req, chg.Configure.CoreUrl)
 	if err != nil {
-		return nil, err
+		return nil, 0, err
 	}
 	if res.Code != 200 {
-		return nil, errors.New(res.Message)
+		return nil, 0, errors.New(res.Message)
 	}
+	var data response.TemplateList
 	bytes, _ := json.Marshal(res.Data)
 	err = json.Unmarshal(bytes, &data)
 	if err != nil {
-		return nil, err
+		return nil, 0, err
 	}
-	return data, nil
+	return data.List, data.TotalCount, nil
 }
 
 // TemplateAdd 模板配置新增
