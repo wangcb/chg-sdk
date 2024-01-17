@@ -250,7 +250,7 @@ func (t *Message) MessageList(params request.MessageList) (data response.Message
 }
 
 // MessageDetail 消息详情
-func (t *Message) MessageDetail(id int) (data *response.MessagelistDetail, err error) {
+func (t *Message) MessageDetail(id int) (data response.MessagelistDetail, err error) {
 	req := http.Request{
 		Method: "GET",
 		URL:    "/api/message/" + strconv.Itoa(id),
