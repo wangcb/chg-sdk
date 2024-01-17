@@ -223,3 +223,49 @@ func (t *Message) ReadMessage(params request.ReadUser) error {
 	}
 	return nil
 }
+
+// MessageList 获取消息列表
+func (t *Message) MessageList(params request.MessageList) (data response.Messagelist, err error) {
+	req := http.Request{
+		Method: "GET",
+		URL:    "/api/message",
+		Body: map[string]interface{}{
+			"page": params.Page,
+			"size": params.PageSize,
+		},
+	}
+	res, err := request.Do(req, chg.Configure.CoreUrl)
+	if err != nil {
+		return nil, err
+	}
+	if res.Code != 200 {
+		return nil, errors.New(res.Message)
+	}
+	bytes, _ := json.Marshal(res.Data)
+	err = json.Unmarshal(bytes, &data)
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
+}
+
+// MessageDetail 消息详情
+func (t *Message) MessageDetail(id int) (data *response.MessagelistDetail, err error) {
+	req := http.Request{
+		Method: "GET",
+		URL:    "/api/message/" + strconv.Itoa(id),
+	}
+	res, err := request.Do(req, chg.Configure.CoreUrl)
+	if err != nil {
+		return nil, err
+	}
+	if res.Code != 200 {
+		return nil, errors.New(res.Message)
+	}
+	bytes, _ := json.Marshal(res.Data)
+	err = json.Unmarshal(bytes, &data)
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
+}
