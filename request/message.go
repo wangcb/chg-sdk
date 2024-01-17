@@ -40,3 +40,11 @@ type ReadUser struct {
 	UserId    int `json:"user_id" validate:"required" label:"用户id"`
 	MessageId int `json:"message_id" validate:"required" label:"用户id"`
 }
+
+type MessageList struct {
+	Page      int    `json:"page" form:"page"` // 页码
+	PageSize  int    `json:"size" form:"size"` // 每页大小
+	Id        int    `json:"id" form:"id"`
+	Appid     string `json:"appid" form:"appid"`
+	GroupType string `json:"group_type" form:"group_type"`
+}
