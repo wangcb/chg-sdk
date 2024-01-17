@@ -68,7 +68,6 @@ func CheckSign(c *gin.Context, secretKey string, expireTime int) error {
 			}
 		}
 	}
-
 	calcSig := request.SignGenerate(secretKey, c.Request.Method, c.Request.URL.Path, jsonBytes, timestamp)
 	if calcSig != signature {
 		return errors.New("invalid signature")
