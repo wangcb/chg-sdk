@@ -11,7 +11,7 @@ type TemplateList struct {
 }
 
 type TemplateParam struct {
-	Appid          string `json:"appid" form:"appid" validate:"required" label:"app_id"`
+	Appid          string `json:"app_id" form:"app_id" validate:"required" label:"app_id"`
 	Identify       string `json:"identify" form:"identify" validate:"required" label:"模板标识"`
 	SceneDesc      string `json:"scene_desc" form:"scene_desc" validate:"required" label:"场景说明"`
 	Channel        string `json:"channel" form:"channel" validate:"required" label:"通知渠道"`
