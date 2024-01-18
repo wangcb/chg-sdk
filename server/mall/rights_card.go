@@ -1,6 +1,7 @@
 package mall
 
 import (
+	"encoding/json"
 	"errors"
 	"github.com/wangcb/chg-sdk/chg"
 	"github.com/wangcb/chg-sdk/http"
