@@ -1,16 +1,24 @@
 package response
 
+import "time"
+
 type UserRightsCard struct {
-	Id           int64        `json:"id"`
-	UserId       int64        `json:"user_id"`
-	CardId       int          `json:"card_id"`
-	CardName     string       `json:"card_name"`
-	CardType     string       `json:"card_type"`
-	ActivateAt   string       `json:"activate_at"`
-	Status       int          `json:"status"`
-	ExpirationAt string       `json:"expiration_at"`
-	Version      int64        `json:"version"`
-	Rights       []UserRights `json:"rights"`
+	Id              int64        `json:"id"`
+	UserId          int64        `json:"user_id"`
+	Username        string       `json:"username"`
+	Phone           string       `json:"phone"`
+	CardId          int          `json:"card_id"`
+	CardName        string       `json:"card_name"`
+	CardType        string       `json:"card_type"`
+	ActivateAt      string       `json:"activate_at"`
+	Status          int          `json:"status"`
+	ExpirationAt    string       `json:"expiration_at"`
+	Version         int64        `json:"version"`
+	CreatedAt       time.Time    `json:"created_at"`
+	HealthManager   string       `json:"health_manager"`
+	FamilyMemberSum int          `json:"family_member_sum"`
+	InquiryCount    int          `json:"inquiry_count"`
+	Rights          []UserRights `json:"rights"`
 }
 
 type UserRights struct {
@@ -30,6 +38,6 @@ type UserRights struct {
 
 // UserRightsCardList 用户权益卡列表返回参数结构体
 type UserRightsCardList struct {
-	TotalCount int64            `json:"total_count"`
-	Items      []UserRightsCard `json:"items"`
+	Total int64            `json:"total"`
+	Data  []UserRightsCard `json:"data"`
 }
