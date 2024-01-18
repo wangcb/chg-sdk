@@ -71,3 +71,27 @@ func (r *RightsCard) RightsUsedCallback(userCardId int64, rightsNo string, userI
 	}
 	return &data, nil
 }
+
+// RightsUserCardList 用户权益卡列表
+func (r *RightsCard) RightsUserCardList(params map[string]interface{}) (data *response.UserRightsCardList, err error) {
+	req := http.Request{
+		Method: "GET",
+		URL:    "/internal/user/rights/list",
+		Body:   params,
+	}
+	res, err := request.Do(req, chg.Configure.MallUrl)
+	if err != nil {
+		return nil, err
+	}
+	if res.Code != 200 {
+		return nil, errors.New(res.Msg)
+	}
+
+	bytes, _ := json.Marshal(res.Data)
+	err = json.Unmarshal(bytes, &data)
+	if err != nil {
+		return nil, err
+	}
+
+	return
+}

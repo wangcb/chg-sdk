@@ -27,3 +27,9 @@ type UserRights struct {
 	ActivateAt   string `json:"activate_at"`
 	ExpirationAt string `json:"expiration_at"`
 }
+
+// UserRightsCardList 用户权益卡列表返回参数结构体
+type UserRightsCardList struct {
+	TotalCount int64            `json:"total_count"`
+	Items      []UserRightsCard `json:"items"`
+}
