@@ -151,3 +151,32 @@ func (t *User) RefreshToken() (string, error) {
 	}
 	return res.Data.(string), nil
 }
+
+// GetWorkExternalUsers 查询企业微信用户（从数据库中查询）
+func (t *User) GetWorkExternalUsers(platform string, state string, page int, pageSize int) (data response.WorkExternalUserListByCore, err error) {
+	req := http.Request{
+		Method: "POST",
+		URL:    "/api/work/external/user",
+		Body: map[string]interface{}{
+			"page":  page,
+			"size":  pageSize,
+			"state": state,
+		},
+		Headers: map[string]string{
+			"Platform": platform,
+		},
+	}
+	res, err := request.Do(req, chg.Configure.CoreUrl)
+	if err != nil {
+		return data, err
+	}
+	if res.Code != 200 {
+		return data, errors.New(res.Message)
+	}
+	bytes, _ := json.Marshal(res.Data)
+	err = json.Unmarshal(bytes, &data)
+	if err != nil {
+		return data, err
+	}
+	return data, nil
+}

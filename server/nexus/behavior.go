@@ -34,6 +34,7 @@ type BehaviorData struct {
 	CreatedAt      int64  `json:"created_at"` //毫秒
 	EntryAt        int64  `json:"entry_at"`   //毫秒
 	LeaveAt        int64  `json:"leave_at"`   //毫秒
+	Params         string `json:"params"`
 }
 
 func (t *Behavior) CreateBehavior(behavior BehaviorData) error {
