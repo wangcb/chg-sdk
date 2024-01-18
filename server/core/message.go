@@ -237,15 +237,15 @@ func (t *Message) MessageList(params request.MessageList) (data response.Message
 	}
 	res, err := request.Do(req, chg.Configure.CoreUrl)
 	if err != nil {
-		return nil, err
+		return data, err
 	}
 	if res.Code != 200 {
-		return nil, errors.New(res.Message)
+		return data, errors.New(res.Message)
 	}
 	bytes, _ := json.Marshal(res.Data)
 	err = json.Unmarshal(bytes, &data)
 	if err != nil {
-		return nil, err
+		return data, err
 	}
 	return data, nil
 }
@@ -258,15 +258,15 @@ func (t *Message) MessageDetail(id int) (data response.MessagelistDetail, err er
 	}
 	res, err := request.Do(req, chg.Configure.CoreUrl)
 	if err != nil {
-		return nil, err
+		return data, err
 	}
 	if res.Code != 200 {
-		return nil, errors.New(res.Message)
+		return data, errors.New(res.Message)
 	}
 	bytes, _ := json.Marshal(res.Data)
 	err = json.Unmarshal(bytes, &data)
 	if err != nil {
-		return nil, err
+		return data, err
 	}
 	return data, nil
 }
