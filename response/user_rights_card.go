@@ -1,7 +1,5 @@
 package response
 
-import "time"
-
 type UserRightsCard struct {
 	Id              int64        `json:"id"`
 	UserId          int64        `json:"user_id"`
@@ -14,7 +12,7 @@ type UserRightsCard struct {
 	Status          int          `json:"status"`
 	ExpirationAt    string       `json:"expiration_at"`
 	Version         int64        `json:"version"`
-	CreatedAt       time.Time    `json:"created_at"`
+	CreatedAt       string       `json:"created_at"`
 	HealthManager   string       `json:"health_manager"`
 	FamilyMemberSum int          `json:"family_member_sum"`
 	InquiryCount    int          `json:"inquiry_count"`
