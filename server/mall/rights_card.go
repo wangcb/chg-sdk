@@ -80,3 +80,27 @@ func (r *RightsCard) RightsUserCardList(params map[string]interface{}) (data *re
 
 	return
 }
+
+// RightsChannelList 权益渠道列表
+func (r *RightsCard) RightsChannelList(params map[string]interface{}) (data []response.RightsChannel, err error) {
+	req := http.Request{
+		Method: "GET",
+		URL:    "/internal/rights/channel",
+		Body:   params,
+	}
+	res, err := request.Do(req, chg.Configure.MallUrl)
+	if err != nil {
+		return nil, err
+	}
+	if res.Code != 200 {
+		return nil, errors.New(res.Msg)
+	}
+
+	bytes, _ := json.Marshal(res.Data)
+	err = json.Unmarshal(bytes, &data)
+	if err != nil {
+		return nil, err
+	}
+
+	return
+}

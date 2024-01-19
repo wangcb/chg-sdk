@@ -41,3 +41,9 @@ type UserRightsCardList struct {
 	Total int64            `json:"total"`
 	Data  []UserRightsCard `json:"data"`
 }
+
+// RightsChannel 权益渠道列表返回参数结构体
+type RightsChannel struct {
+	ID          int    `json:"id"`
+	ChannelName string `json:"channel_name"`
+}
