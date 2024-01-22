@@ -51,7 +51,7 @@ func (t *Message) TemplateList(params request.TemplateList) (list []*response.Me
 		Body: map[string]interface{}{
 			"page":       params.Page,
 			"size":       params.PageSize,
-			"appid":      params.Appid,
+			"appid":      params.AppId,
 			"channel":    params.Channel,
 			"status":     params.Status,
 			"group_type": params.GroupType,
@@ -79,7 +79,7 @@ func (t *Message) TemplateAdd(params request.TemplateParam) error {
 		Method: "POST",
 		URL:    "/api/message/template",
 		Body: map[string]interface{}{
-			"appid":           params.Appid,
+			"appid":           params.AppId,
 			"identify":        params.Identify,
 			"scene_desc":      params.SceneDesc,
 			"channel":         params.Channel,
@@ -112,7 +112,7 @@ func (t *Message) TemplateEdit(params request.TemplateParam) error {
 		URL:    "/api/message/template",
 		Body: map[string]interface{}{
 			"id":              params.Id,
-			"appid":           params.Appid,
+			"appid":           params.AppId,
 			"identify":        params.Identify,
 			"scene_desc":      params.SceneDesc,
 			"channel":         params.Channel,
