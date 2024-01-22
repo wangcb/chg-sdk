@@ -79,7 +79,7 @@ func (t *Message) TemplateAdd(params request.TemplateParam) error {
 		Method: "POST",
 		URL:    "/api/message/template",
 		Body: map[string]interface{}{
-			"appid":           params.AppId,
+			"app_id":          params.AppId,
 			"identify":        params.Identify,
 			"scene_desc":      params.SceneDesc,
 			"channel":         params.Channel,
@@ -112,7 +112,7 @@ func (t *Message) TemplateEdit(params request.TemplateParam) error {
 		URL:    "/api/message/template",
 		Body: map[string]interface{}{
 			"id":              params.Id,
-			"appid":           params.AppId,
+			"app_id":          params.AppId,
 			"identify":        params.Identify,
 			"scene_desc":      params.SceneDesc,
 			"channel":         params.Channel,
