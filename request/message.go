@@ -4,14 +4,14 @@ type TemplateList struct {
 	Page      int    `json:"page" form:"page"` // 页码
 	PageSize  int    `json:"size" form:"size"` // 每页大小
 	Id        int    `json:"id" form:"id"`
-	Appid     string `json:"appid" form:"appid"`
+	AppId     string `json:"app_id" form:"app_id"`
 	Channel   string `json:"channel" form:"channel"`
 	Status    int    `json:"status" form:"status"`
 	GroupType int    `json:"group_type" form:"group_type"`
 }
 
 type TemplateParam struct {
-	Appid          string `json:"app_id" form:"app_id" validate:"required" label:"app_id"`
+	AppId          string `json:"app_id" form:"app_id" validate:"required" label:"app_id"`
 	Identify       string `json:"identify" form:"identify" validate:"required" label:"模板标识"`
 	SceneDesc      string `json:"scene_desc" form:"scene_desc" validate:"required" label:"场景说明"`
 	Channel        string `json:"channel" form:"channel" validate:"required" label:"通知渠道"`
