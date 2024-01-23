@@ -45,6 +45,6 @@ type MessageList struct {
 	Page      int    `json:"page" form:"page"` // 页码
 	PageSize  int    `json:"size" form:"size"` // 每页大小
 	Id        int    `json:"id" form:"id"`
-	Appid     string `json:"appid" form:"appid"`
+	AppId     string `json:"app_id" form:"app_id"`
 	GroupType string `json:"group_type" form:"group_type"`
 }

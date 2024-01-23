@@ -233,7 +233,7 @@ func (t *Message) MessageList(params request.MessageList) (list []*response.Mess
 		Body: map[string]interface{}{
 			"page":       params.Page,
 			"size":       params.PageSize,
-			"app_id":     params.Appid,
+			"app_id":     params.AppId,
 			"group_type": params.GroupType,
 		},
 	}
