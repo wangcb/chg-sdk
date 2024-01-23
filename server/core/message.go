@@ -226,7 +226,7 @@ func (t *Message) ReadMessage(params request.ReadUser) error {
 }
 
 // MessageList 获取消息列表
-func (t *Message) MessageList(params request.MessageList) (data response.Messagelist, err error) {
+func (t *Message) MessageList(params request.MessageList) (list []*response.Message, total int64, err error) {
 	req := http.Request{
 		Method: "GET",
 		URL:    "/api/message",
@@ -235,19 +235,21 @@ func (t *Message) MessageList(params request.MessageList) (data response.Message
 			"size": params.PageSize,
 		},
 	}
+
 	res, err := request.Do(req, chg.Configure.CoreUrl)
 	if err != nil {
-		return data, err
+		return nil, 0, err
 	}
 	if res.Code != 200 {
-		return data, errors.New(res.Message)
+		return nil, 0, errors.New(res.Message)
 	}
+	var data response.Messagelist
 	bytes, _ := json.Marshal(res.Data)
 	err = json.Unmarshal(bytes, &data)
 	if err != nil {
-		return data, err
+		return nil, 0, err
 	}
-	return data, nil
+	return data.List, data.TotalCount, nil
 }
 
 // MessageDetail 消息详情
