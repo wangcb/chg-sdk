@@ -231,8 +231,10 @@ func (t *Message) MessageList(params request.MessageList) (list []*response.Mess
 		Method: "GET",
 		URL:    "/api/message",
 		Body: map[string]interface{}{
-			"page": params.Page,
-			"size": params.PageSize,
+			"page":       params.Page,
+			"size":       params.PageSize,
+			"app_id":     params.Appid,
+			"group_type": params.GroupType,
 		},
 	}
 
