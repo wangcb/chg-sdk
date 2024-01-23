@@ -48,14 +48,14 @@ type MessagelistDetail struct {
 }
 
 type Message struct {
-	AppId        string    `json:"appId" form:"appId"`
-	TemplateId   int       `json:"templateId" form:"templateId"`
-	SingleUserId int       `json:"singleUserId" form:"singleUserId"`
-	GroupUserId  string    `json:"groupUserId" form:"groupUserId"`
+	AppId        string    `json:"app_id" form:"app_id"`
+	TemplateId   int       `json:"template_id" form:"template_id"`
+	SingleUserId int       `json:"single_user_id" form:"single_user_id"`
+	GroupUserId  string    `json:"group_user_id" form:"group_user_id"`
 	Title        string    `json:"title" form:"title"`
 	Content      string    `json:"content" form:"content"`
 	ErrMsg       string    `json:"err_msg" form:"err_msg"`
-	PushType     int       `json:"pushType" form:"pushType"`
+	PushType     int       `json:"push_type" form:"push_type"`
 	GroupType    int       `json:"group_type" form:"group_type"`
 	CreatedAt    time.Time `gorm:"column:created_at;" json:"created_at,omitempty"`
 }
