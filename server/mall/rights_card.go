@@ -82,7 +82,7 @@ func (r *RightsCard) RightsUserCardList(params map[string]interface{}) (data *re
 }
 
 // RightsUserCardDetails 用户权益卡详情
-func (r *RightsCard) RightsUserCardDetails(id uint) (data *response.UserRightsCardList, err error) {
+func (r *RightsCard) RightsUserCardDetails(id uint) (data *response.UserRightsCard, err error) {
 	req := http.Request{
 		Method: "GET",
 		URL:    "/internal/user/rights/details",
