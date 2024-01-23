@@ -2,6 +2,7 @@ package response
 
 type UserRightsCard struct {
 	Id              int64        `json:"id"`
+	ChannelId       int          `json:"channel_id"`
 	UserId          int64        `json:"user_id"`
 	Username        string       `json:"username"`
 	Phone           string       `json:"phone"`
