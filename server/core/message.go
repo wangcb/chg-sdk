@@ -229,13 +229,8 @@ func (t *Message) ReadMessage(params request.ReadUser) error {
 func (t *Message) MessageList(params request.MessageList) (list []*response.Message, total int64, err error) {
 	req := http.Request{
 		Method: "GET",
-		URL:    "/api/message",
-		Body: map[string]interface{}{
-			"page":       params.Page,
-			"size":       params.PageSize,
-			"app_id":     params.AppId,
-			"group_type": params.GroupType,
-		},
+		URL:    "/api/message?page=" + strconv.Itoa(params.Page) + "&size=" + strconv.Itoa(params.PageSize) + "&app_id=" + params.AppId + "&group_type=" + params.GroupType,
+		Body:   map[string]interface{}{},
 	}
 
 	res, err := request.Do(req, chg.Configure.CoreUrl)
