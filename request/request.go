@@ -18,11 +18,11 @@ type Result struct {
 	Data    interface{} `json:"data"`
 }
 
-func Do(req http.Request, coreUrl string) (*Result, error) {
+func Do(req http.Request, url string) (*Result, error) {
 	timestamp := time.Now().Unix()
 	method := strings.ToUpper(req.Method)
 	var bodyBytes []byte
-	/*if req.Body != nil {
+	if req.Body != nil {
 		// 将 map 中的值全部转换为字符串
 		if method == "GET" {
 			for key, value := range req.Body {
@@ -36,22 +36,6 @@ func Do(req http.Request, coreUrl string) (*Result, error) {
 				}
 			}
 		}
-		bodyBytes, _ = json.Marshal(req.Body)
-	}*/
-	if method == "GET" || method == "DELETE" {
-		parse, err := url.Parse(req.URL)
-		if err != nil {
-			return nil, err
-		}
-		params := parse.Query()
-		if len(params) > 0 {
-			paramMap := make(map[string]string)
-			for k, v := range params {
-				paramMap[k] = v[0]
-			}
-			bodyBytes, _ = json.Marshal(paramMap)
-		}
-	} else {
 		bodyBytes, _ = json.Marshal(req.Body)
 	}
 	sign := SignGenerate(chg.Configure.SignSecret, method, req.URL, bodyBytes, timestamp)
@@ -69,7 +53,7 @@ func Do(req http.Request, coreUrl string) (*Result, error) {
 	req.Headers = headers
 
 	// 请求地址拼接
-	req.URL = coreUrl + req.URL
+	req.URL = url + req.URL
 	client := http.NewClient(30 * time.Second)
 	resp, err := client.Do(req)
 	if err != nil {
