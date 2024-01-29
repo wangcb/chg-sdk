@@ -38,7 +38,7 @@ func Do(req http.Request, coreUrl string) (*Result, error) {
 		}
 		bodyBytes, _ = json.Marshal(req.Body)
 	}*/
-	if method == "GET" {
+	if method == "GET" || method == "DELETE" {
 		parse, err := url.Parse(req.URL)
 		if err != nil {
 			return nil, err
