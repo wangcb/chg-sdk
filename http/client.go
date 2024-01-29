@@ -37,11 +37,23 @@ func NewClient(timeout time.Duration) *Client {
 }
 
 func (c *Client) Do(req Request) (*Response, error) {
+	if req.Method == "GET" && req.Body != nil {
+		u, err := url.Parse(req.URL)
+		if err != nil {
+			return nil, err
+		}
+		q := u.Query()
+		for key, value := range req.Body {
+			q.Set(key, value.(string))
+		}
+		u.RawQuery = q.Encode()
+		req.URL += "?" + u.RawQuery
+		req.Body = nil
+	}
 	httpRequest, err := http.NewRequest(req.Method, req.URL, nil)
 	if err != nil {
 		return nil, err
 	}
-
 	for key, value := range req.Headers {
 		httpRequest.Header.Set(key, value)
 	}
