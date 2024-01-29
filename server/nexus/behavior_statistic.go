@@ -15,29 +15,6 @@ func NewUserBehaviorStatistic(config *chg.Config) *UserBehaviorStatistic {
 	return &UserBehaviorStatistic{}
 }
 
-// GetUserBehaviorStatisticList 查询用户行为统计
-func (t *UserBehaviorStatistic) GetUserBehaviorStatisticList(params map[string]interface{}) (list map[string]interface{}, err error) {
-	req := http.Request{
-		Method: "POST",
-		URL:    "/api/user/behaviorStatistic",
-		Body:   params,
-	}
-	res, err := request.Do(req, chg.Configure.NexusUrl)
-	if err != nil {
-		return nil, err
-	}
-	if res.Code != 200 {
-		return nil, errors.New(res.Message)
-	}
-
-	bytes, _ := json.Marshal(res.Data)
-	if err = json.Unmarshal(bytes, &list); err != nil {
-		return nil, err
-	}
-
-	return list, nil
-}
-
 // GetUserBehaviorActionList 查询用户行为统计
 func (t *UserBehaviorStatistic) GetUserBehaviorActionList(params map[string]interface{}) (list map[string]interface{}, err error) {
 	req := http.Request{
