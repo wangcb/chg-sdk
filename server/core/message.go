@@ -47,15 +47,8 @@ func (t *Message) GetWechatTemplate(platForm string) ([]response.WechatTemplate,
 func (t *Message) TemplateList(params request.TemplateList) (list []*response.MessageTemplate, total int64, err error) {
 	req := http.Request{
 		Method: "GET",
-		URL:    "/api/message/template",
-		Body: map[string]interface{}{
-			"page":       params.Page,
-			"size":       params.PageSize,
-			"appid":      params.AppId,
-			"channel":    params.Channel,
-			"status":     params.Status,
-			"group_type": params.GroupType,
-		},
+		URL:    "/api/message/template?page=" + strconv.Itoa(params.Page) + "&size=" + strconv.Itoa(params.PageSize) + "&appid=" + params.AppId + "&channel=" + params.Channel + "&status=" + strconv.Itoa(params.Status) + "&group_type=" + strconv.Itoa(params.GroupType),
+		Body:   map[string]interface{}{},
 	}
 	res, err := request.Do(req, chg.Configure.CoreUrl)
 	if err != nil {
