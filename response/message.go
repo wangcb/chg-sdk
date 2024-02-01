@@ -48,6 +48,7 @@ type MessagelistDetail struct {
 }
 
 type Message struct {
+	ID           int64     `json:"id" form:"id"`
 	AppId        string    `json:"app_id" form:"app_id"`
 	TemplateId   int       `json:"template_id" form:"template_id"`
 	SingleUserId int       `json:"single_user_id" form:"single_user_id"`
