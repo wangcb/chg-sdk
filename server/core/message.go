@@ -195,9 +195,6 @@ func (t *Message) Send(template string, data map[string]interface{}, toUser inte
 		Method: "POST",
 		URL:    "/api/message/send",
 		Body:   body,
-		Headers: map[string]string{
-			"Platform": "rights",
-		},
 	}
 	res, err := request.Do(req, chg.Configure.CoreUrl)
 	if err != nil {
