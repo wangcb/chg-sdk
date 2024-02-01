@@ -174,25 +174,29 @@ func (t *Message) TemplateDel(id int) error {
 	return nil
 }
 
-// SendMessage 消息发送
-// 参数示例
-//
-//	{
-//		"identify": "test", 必传
-//		"push_type": 1,
-//		"to_user": "[\"999\"]", push_type = 3 可不传
-//		"request_param": "[{\"thing2\":\"每日一次\"},{\"thing4\":\"您可以在微信中直接回复医生\"}]"  thing2 根据模板中的temp_params 参数进行拼装
-//	}
-func (t *Message) SendMessage(params request.SendMessage) error {
+// Send 消息发送
+func (t *Message) Send(template string, data map[string]interface{}, toUser interface{}) error {
+	// 将 data 转换为 JSON 字符串
+	jsonData, err := json.Marshal(data)
+	if err != nil {
+		return err
+	}
+	body := map[string]interface{}{
+		"identify": template,
+		"data":     string(jsonData),
+	}
+	switch v := toUser.(type) {
+	case []int:
+		body["to_users"] = v
+	case int:
+		body["to_user"] = v
+	}
 	req := http.Request{
 		Method: "POST",
 		URL:    "/api/message/send",
-		Body: map[string]interface{}{
-			"identify":      params.Identify,
-			"push_type":     params.PushType,
-			"to_user":       params.ToUser,
-			"request_param": params.RequestParam,
-			"content":       params.Content,
+		Body:   body,
+		Headers: map[string]string{
+			"Platform": "rights",
 		},
 	}
 	res, err := request.Do(req, chg.Configure.CoreUrl)
