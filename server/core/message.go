@@ -60,7 +60,7 @@ func (t *Message) TemplateList(params map[string]any) (list any, err error) {
 	return res.Data, nil
 }
 
-// TemplateAdd 模板配置新增
+// TemplateAdd 新增模版
 func (t *Message) TemplateAdd(params map[string]any) error {
 	req := http.Request{
 		Method: "POST",
