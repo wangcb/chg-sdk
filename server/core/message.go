@@ -44,56 +44,28 @@ func (t *Message) GetWechatTemplate(platForm string) ([]response.WechatTemplate,
 }
 
 // TemplateList 获取模板配置列表
-func (t *Message) TemplateList(params request.TemplateList) (list []*response.MessageTemplate, total int64, err error) {
+func (t *Message) TemplateList(params map[string]any) (list any, err error) {
 	req := http.Request{
 		Method: "GET",
 		URL:    "/api/message/template",
-		Body: map[string]interface{}{
-			"page":       params.Page,
-			"size":       params.PageSize,
-			"appid":      params.AppId,
-			"channel":    params.Channel,
-			"status":     params.Status,
-			"group_type": params.GroupType,
-		},
+		Body:   params,
 	}
 	res, err := request.Do(req, chg.Configure.CoreUrl)
 	if err != nil {
-		return nil, 0, err
+		return nil, err
 	}
 	if res.Code != 200 {
-		return nil, 0, errors.New(res.Message)
+		return nil, errors.New(res.Message)
 	}
-	var data response.TemplateList
-	bytes, _ := json.Marshal(res.Data)
-	err = json.Unmarshal(bytes, &data)
-	if err != nil {
-		return nil, 0, err
-	}
-	return data.List, data.TotalCount, nil
+	return res.Data, nil
 }
 
 // TemplateAdd 模板配置新增
-func (t *Message) TemplateAdd(params request.TemplateParam) error {
+func (t *Message) TemplateAdd(params map[string]any) error {
 	req := http.Request{
 		Method: "POST",
 		URL:    "/api/message/template",
-		Body: map[string]interface{}{
-			"app_id":          params.AppId,
-			"identify":        params.Identify,
-			"scene_desc":      params.SceneDesc,
-			"channel":         params.Channel,
-			"title":           params.Title,
-			"content":         params.Content,
-			"temp_params":     params.TempParams,
-			"wechat_temp_id":  params.WechatTempId,
-			"feishu_url":      params.FeishuUrl,
-			"target_platform": params.TargetPlatform,
-			"group_type":      params.GroupType,
-			"status":          params.Status,
-			"creator":         params.Creator,
-			"updater":         params.Updater,
-		},
+		Body:   params,
 	}
 	res, err := request.Do(req, chg.Configure.CoreUrl)
 	if err != nil {
@@ -106,26 +78,11 @@ func (t *Message) TemplateAdd(params request.TemplateParam) error {
 }
 
 // TemplateEdit 模板配置修改
-func (t *Message) TemplateEdit(params request.TemplateParam) error {
+func (t *Message) TemplateEdit(params map[string]any) error {
 	req := http.Request{
 		Method: "PUT",
 		URL:    "/api/message/template",
-		Body: map[string]interface{}{
-			"id":              params.Id,
-			"app_id":          params.AppId,
-			"identify":        params.Identify,
-			"scene_desc":      params.SceneDesc,
-			"channel":         params.Channel,
-			"temp_params":     params.TempParams,
-			"title":           params.Title,
-			"content":         params.Content,
-			"wechat_temp_id":  params.WechatTempId,
-			"feishu_url":      params.FeishuUrl,
-			"group_type":      params.GroupType,
-			"target_platform": params.TargetPlatform,
-			"status":          params.Status,
-			"updater":         params.Updater,
-		},
+		Body:   params,
 	}
 	res, err := request.Do(req, chg.Configure.CoreUrl)
 	if err != nil {
@@ -138,7 +95,7 @@ func (t *Message) TemplateEdit(params request.TemplateParam) error {
 }
 
 // TemplateDetail 模板详情
-func (t *Message) TemplateDetail(id int) (data *response.MessageTemplate, err error) {
+func (t *Message) TemplateDetail(id int) (data any, err error) {
 	req := http.Request{
 		Method: "GET",
 		URL:    "/api/message/template/" + strconv.Itoa(id),
@@ -150,12 +107,7 @@ func (t *Message) TemplateDetail(id int) (data *response.MessageTemplate, err er
 	if res.Code != 200 {
 		return nil, errors.New(res.Message)
 	}
-	bytes, _ := json.Marshal(res.Data)
-	err = json.Unmarshal(bytes, &data)
-	if err != nil {
-		return nil, err
-	}
-	return data, nil
+	return res.Data, nil
 }
 
 // TemplateDel 模板删除
@@ -207,14 +159,11 @@ func (t *Message) Send(template string, data map[string]interface{}, toUser inte
 }
 
 // ReadMessage 消息已读
-func (t *Message) ReadMessage(params request.ReadUser) error {
+func (t *Message) ReadMessage(params map[string]any) error {
 	req := http.Request{
 		Method: "POST",
 		URL:    "/api/message/read",
-		Body: map[string]interface{}{
-			"user_id":    params.UserId,
-			"message_id": params.MessageId,
-		},
+		Body:   params,
 	}
 	res, err := request.Do(req, chg.Configure.CoreUrl)
 	if err != nil {
@@ -227,36 +176,24 @@ func (t *Message) ReadMessage(params request.ReadUser) error {
 }
 
 // MessageList 获取消息列表
-func (t *Message) MessageList(params request.MessageList) (list []*response.Message, total int64, err error) {
+func (t *Message) MessageList(params map[string]any) (list any, err error) {
 	req := http.Request{
 		Method: "GET",
 		URL:    "/api/message",
-		Body: map[string]interface{}{
-			"page":       params.Page,
-			"size":       params.PageSize,
-			"app_id":     params.AppId,
-			"group_type": params.GroupType,
-		},
+		Body:   params,
 	}
-
 	res, err := request.Do(req, chg.Configure.CoreUrl)
 	if err != nil {
-		return nil, 0, err
+		return nil, err
 	}
 	if res.Code != 200 {
-		return nil, 0, errors.New(res.Message)
+		return nil, errors.New(res.Message)
 	}
-	var data response.Messagelist
-	bytes, _ := json.Marshal(res.Data)
-	err = json.Unmarshal(bytes, &data)
-	if err != nil {
-		return nil, 0, err
-	}
-	return data.List, data.TotalCount, nil
+	return res.Data, nil
 }
 
 // MessageDetail 消息详情
-func (t *Message) MessageDetail(id int) (data response.MessagelistDetail, err error) {
+func (t *Message) MessageDetail(id int) (data any, err error) {
 	req := http.Request{
 		Method: "GET",
 		URL:    "/api/message/" + strconv.Itoa(id),
@@ -268,10 +205,5 @@ func (t *Message) MessageDetail(id int) (data response.MessagelistDetail, err er
 	if res.Code != 200 {
 		return data, errors.New(res.Message)
 	}
-	bytes, _ := json.Marshal(res.Data)
-	err = json.Unmarshal(bytes, &data)
-	if err != nil {
-		return data, err
-	}
-	return data, nil
+	return res.Data, nil
 }
