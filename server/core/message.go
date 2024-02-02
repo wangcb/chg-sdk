@@ -77,7 +77,7 @@ func (t *Message) TemplateAdd(params map[string]any) error {
 	return nil
 }
 
-// TemplateEdit 模板配置修改
+// TemplateEdit 模板修改
 func (t *Message) TemplateEdit(params map[string]any) error {
 	req := http.Request{
 		Method: "PUT",
