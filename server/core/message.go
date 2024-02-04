@@ -127,7 +127,7 @@ func (t *Message) TemplateDel(id int) error {
 }
 
 // Send 消息发送
-func (t *Message) Send(template string, data map[string]interface{}, toUser interface{}) error {
+func (t *Message) Send(template string, data map[string]any, toUser interface{}, headers map[string]string) error {
 	// 将 data 转换为 JSON 字符串
 	jsonData, err := json.Marshal(data)
 	if err != nil {
@@ -144,9 +144,10 @@ func (t *Message) Send(template string, data map[string]interface{}, toUser inte
 		body["to_user"] = v
 	}
 	req := http.Request{
-		Method: "POST",
-		URL:    "/api/message/send",
-		Body:   body,
+		Method:  "POST",
+		URL:     "/api/message/send",
+		Body:    body,
+		Headers: headers,
 	}
 	res, err := request.Do(req, chg.Configure.CoreUrl)
 	if err != nil {
