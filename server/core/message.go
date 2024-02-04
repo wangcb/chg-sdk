@@ -207,3 +207,19 @@ func (t *Message) MessageDetail(id int) (data any, err error) {
 	}
 	return res.Data, nil
 }
+
+// PushList 渠道通知详情
+func (t *Message) PushList(messageId int) (data any, err error) {
+	req := http.Request{
+		Method: "GET",
+		URL:    "/api/message/push/" + strconv.Itoa(messageId),
+	}
+	res, err := request.Do(req, chg.Configure.CoreUrl)
+	if err != nil {
+		return nil, err
+	}
+	if res.Code != 200 {
+		return nil, errors.New(res.Message)
+	}
+	return res.Data, nil
+}
