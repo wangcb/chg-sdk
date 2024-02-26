@@ -50,10 +50,11 @@ func (s *ShortUrl) UpdateShortUrl(params map[string]interface{}) error {
 }
 
 // GetShortUrlList 获取短链接列表
-func (s *ShortUrl) GetShortUrlList(params map[string]string) (list any, err error) {
+func (s *ShortUrl) GetShortUrlList(params map[string]any) (list any, err error) {
 	req := http.Request{
 		Method: "GET",
-		URL:    request.BuildURL("/api/shortUrl", params),
+		URL:    "/api/shortUrl",
+		Body:   params,
 	}
 	res, err := request.Do(req, chg.Configure.NexusUrl)
 	if err != nil {
@@ -113,7 +114,6 @@ func (s *ShortUrl) DeleteShortUrls(ids []int) error {
 			"ids": ids,
 		},
 	}
-	}
 	res, err := request.Do(req, chg.Configure.NexusUrl)
 	if err != nil {
 		return err
@@ -140,5 +140,3 @@ func (s *ShortUrl) GenerateShortUrl() (string, error) {
 	}
 	return res.Data.(string), nil
 }
-
-
