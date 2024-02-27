@@ -12,6 +12,7 @@ type ShortUrl struct {
 }
 
 func NewShortUrl(config *chg.Config) *ShortUrl {
+	config.InitConfig()
 	return &ShortUrl{}
 }
 
@@ -21,7 +22,7 @@ func (s *ShortUrl) GeneralRequest(url string, params map[string]any, method stri
 		URL:    url,
 		Body:   params,
 	}
-	res, err := request.Do(req, chg.Configure.NexusUrl)
+	list, err = request.Do(req, chg.Configure.NexusUrl)
 	return
 }
 
