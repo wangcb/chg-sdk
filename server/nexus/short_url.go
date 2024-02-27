@@ -15,6 +15,16 @@ func NewShortUrl(config *chg.Config) *ShortUrl {
 	return &ShortUrl{}
 }
 
+func (s *ShortUrl) GeneralRequest(url string, params map[string]any, method string) (list any, err error) {
+	req := http.Request{
+		Method: method,
+		URL:    url,
+		Body:   params,
+	}
+	res, err := request.Do(req, chg.Configure.NexusUrl)
+	return
+}
+
 // CreateShortUrl 创建短链接
 func (s *ShortUrl) CreateShortUrl(params map[string]interface{}) error {
 	req := http.Request{
