@@ -23,3 +23,13 @@ func (s *Common) Request(url string, params map[string]any, method string) (res 
 	res, err = request.Do(req, chg.Configure.NexusUrl)
 	return
 }
+
+func (s *Common) NovaRequest(url string, params map[string]any, method string) (res any, err error) {
+	req := http.Request{
+		Method: method,
+		URL:    url,
+		Body:   params,
+	}
+	res, err = request.Do(req, chg.Configure.NovaUrl)
+	return
+}
