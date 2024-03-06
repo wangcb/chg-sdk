@@ -19,7 +19,7 @@ func NewRightsDrug(config *chg.Config) *RightsDrug {
 
 // GetRightsDrug 获取权益卡药品清单的药品
 func (r *RightsDrug) GetRightsDrug(params map[string]interface{}) (data response.RightsDrugResponse, err error) {
-	body := map[string]interface{}{}
+	var body map[string]interface{}
 	if _, ok := params["card_id"]; ok {
 		body["card_id"] = params["card_id"]
 	}
