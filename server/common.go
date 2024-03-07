@@ -47,3 +47,13 @@ func (s *Common) NovaRequest(url string, params map[string]any, method string) (
 	}
 	return data, nil
 }
+
+func (s *Common) CloudRequest(url string, params map[string]any, method string) (res any, err error) {
+	req := http.Request{
+		Method: method,
+		URL:    url,
+		Body:   params,
+	}
+	res, err = request.Do(req, chg.Configure.CloudUrl)
+	return
+}
