@@ -19,26 +19,10 @@ func NewRightsDrug(config *chg.Config) *RightsDrug {
 
 // GetRightsDrug 获取权益卡药品清单的药品
 func (r *RightsDrug) GetRightsDrug(params map[string]interface{}) (data response.RightsDrugResponse, err error) {
-	var body map[string]interface{}
-	if _, ok := params["card_id"]; ok {
-		body["card_id"] = params["card_id"]
-	}
-	if _, ok := params["user_card_id"]; ok {
-		body["user_card_id"] = params["user_card_id"]
-	}
-	if _, ok := params["keyword"]; ok {
-		body["keyword"] = params["keyword"]
-	}
-	if _, ok := params["medicine_id"]; ok {
-		body["medicine_id"] = params["medicine_id"]
-	}
-	if _, ok := params["medicine_ids"]; ok {
-		body["medicine_ids"] = params["medicine_ids"]
-	}
 	req := http.Request{
 		Method: "GET",
 		URL:    "/internal/rights/drugs",
-		Body:   body,
+		Body:   params,
 	}
 	res, err := request.Do(req, chg.Configure.MallUrl)
 	if err != nil {
