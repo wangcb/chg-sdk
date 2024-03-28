@@ -79,7 +79,7 @@ func (s *Common) CoreUserRequest(url string, params map[string]any, method strin
 	if header != nil {
 		req.Headers = header
 	}
-	res, err := request.Do(req, chg.Configure.CloudUrl)
+	res, err := request.Do(req, chg.Configure.CoreUrl)
 	if err != nil {
 		return nil, err
 	}
