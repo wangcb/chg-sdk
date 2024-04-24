@@ -35,6 +35,29 @@ func (r *RightsCard) HasUserRights(userCardId int64, userId int64, rightsNo stri
 	return res.Data.(bool), nil
 }
 
+// GetUserRightsCount 获取用户权益数量
+func (r *RightsCard) GetUserRightsCount(params map[string]interface{}) (data map[string]interface{}, err error) {
+	req := http.Request{
+		Method: "GET",
+		URL:    "/internal/user/rights",
+		Body:   params,
+	}
+	res, err := request.Do(req, chg.Configure.MallUrl)
+	if err != nil {
+		return nil, err
+	}
+	if res.Code != 200 {
+		return nil, errors.New(res.Msg)
+	}
+
+	bytes, _ := json.Marshal(res.Data)
+	err = json.Unmarshal(bytes, &data)
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
+}
+
 // RightsUsedCallback 权益使用回调
 func (r *RightsCard) RightsUsedCallback(userCardId int64, rightsNo string, userId int64, amount int) (bool, error) {
 	req := http.Request{
