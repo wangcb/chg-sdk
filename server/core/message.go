@@ -22,7 +22,7 @@ func NewMessage(config *chg.Config) *Message {
 func (t *Message) GetWechatTemplate(platForm string) ([]response.WechatTemplate, error) {
 	req := http.Request{
 		Method: "GET",
-		URL:    "/api/message/getWechatTemplate",
+		URL:    "/backend/message/getWechatTemplate",
 		Headers: map[string]string{
 			"Platform": platForm,
 		},
@@ -47,7 +47,7 @@ func (t *Message) GetWechatTemplate(platForm string) ([]response.WechatTemplate,
 func (t *Message) TemplateList(params map[string]any) (list any, err error) {
 	req := http.Request{
 		Method: "GET",
-		URL:    "/api/message/template",
+		URL:    "/backend/message/template",
 		Body:   params,
 	}
 	res, err := request.Do(req, chg.Configure.CoreUrl)
@@ -64,7 +64,7 @@ func (t *Message) TemplateList(params map[string]any) (list any, err error) {
 func (t *Message) TemplateAdd(params map[string]any) error {
 	req := http.Request{
 		Method: "POST",
-		URL:    "/api/message/template",
+		URL:    "/backend/message/template",
 		Body:   params,
 	}
 	res, err := request.Do(req, chg.Configure.CoreUrl)
@@ -81,7 +81,7 @@ func (t *Message) TemplateAdd(params map[string]any) error {
 func (t *Message) TemplateEdit(params map[string]any) error {
 	req := http.Request{
 		Method: "PUT",
-		URL:    "/api/message/template",
+		URL:    "/backend/message/template",
 		Body:   params,
 	}
 	res, err := request.Do(req, chg.Configure.CoreUrl)
@@ -98,7 +98,7 @@ func (t *Message) TemplateEdit(params map[string]any) error {
 func (t *Message) TemplateDetail(id int) (data any, err error) {
 	req := http.Request{
 		Method: "GET",
-		URL:    "/api/message/template/" + strconv.Itoa(id),
+		URL:    "/backend/message/template/" + strconv.Itoa(id),
 	}
 	res, err := request.Do(req, chg.Configure.CoreUrl)
 	if err != nil {
@@ -114,7 +114,7 @@ func (t *Message) TemplateDetail(id int) (data any, err error) {
 func (t *Message) TemplateDel(id int) error {
 	req := http.Request{
 		Method: "DELETE",
-		URL:    "/api/message/template/" + strconv.Itoa(id),
+		URL:    "/backend/message/template/" + strconv.Itoa(id),
 	}
 	res, err := request.Do(req, chg.Configure.CoreUrl)
 	if err != nil {
@@ -180,7 +180,7 @@ func (t *Message) ReadMessage(params map[string]any) error {
 func (t *Message) MessageList(params map[string]any) (list any, err error) {
 	req := http.Request{
 		Method: "GET",
-		URL:    "/api/message",
+		URL:    "/backend/message",
 		Body:   params,
 	}
 	res, err := request.Do(req, chg.Configure.CoreUrl)
@@ -197,7 +197,7 @@ func (t *Message) MessageList(params map[string]any) (list any, err error) {
 func (t *Message) MessageDetail(id int) (data any, err error) {
 	req := http.Request{
 		Method: "GET",
-		URL:    "/api/message/" + strconv.Itoa(id),
+		URL:    "/backend/message/" + strconv.Itoa(id),
 	}
 	res, err := request.Do(req, chg.Configure.CoreUrl)
 	if err != nil {
@@ -213,7 +213,7 @@ func (t *Message) MessageDetail(id int) (data any, err error) {
 func (t *Message) PushList(messageId int) (data any, err error) {
 	req := http.Request{
 		Method: "GET",
-		URL:    "/api/message/push/" + strconv.Itoa(messageId),
+		URL:    "/backend/message/push/" + strconv.Itoa(messageId),
 	}
 	res, err := request.Do(req, chg.Configure.CoreUrl)
 	if err != nil {
